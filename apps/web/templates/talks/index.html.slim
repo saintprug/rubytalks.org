@@ -1,0 +1,11 @@
+.row
+  - talks.each do |talk|
+    .col-sm-4
+      .card.bg-secondary
+        img.card-img-top
+        .card-body
+          h5.card-title
+            = talk.title
+          p.card-text
+            = talk.description
+          = link_to('Watch', routes.talk_path(talk.id), class: 'btn btn-primary')

@@ -1,0 +1,72 @@
+image: "registry.gitlab.com/kova1/rubytalks:latest"
+
+services:
+  - postgres:9.6.3
+  - redis:latest
+
+variables:
+  LC_ALL: C.UTF-8
+  LANG: en_US.UTF-8
+  LANGUAGE: en_US.UTF-8
+  TZ: Europe/Moscow
+  HANAMI_ENV: test
+  DATABASE_URL: 'postgresql://postgres:postgres@postgres/rubytalks_test'
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+
+.default-cache:
+  cache:
+    untracked: true
+    key: CACHE-KEY-5.1
+    paths:
+      - vendor/
+      - public/
+
+stages:
+  - build
+  - prepare
+  - deploy
+
+build:
+  extends: .default-cache
+  stage: build
+  script:
+    - ruby -v
+    - which ruby
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle exec hanami db prepare
+
+rubocop:
+  extends: .default-cache
+  stage: prepare
+  script:
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install  --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle exec rubocop
+
+rspec:
+  extends: .default-cache
+  stage: prepare
+  script:
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle exec hanami db prepare
+    - bundle exec rspec spec
+  artifacts:
+    paths:
+      - coverage/
+
+pages:
+  stage: deploy
+  dependencies:
+    - rspec
+  script:
+    - mv coverage/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - master

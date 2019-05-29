@@ -8,4 +8,5 @@ begin
   RSpec::Core::RakeTask.new(:spec)
   task default: :spec
 rescue LoadError
+  warn 'Could not start RSpec'
 end

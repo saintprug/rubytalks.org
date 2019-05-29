@@ -5,7 +5,6 @@ require: rubocop-rspec
 # There is nothing to change here. At least now.
 AllCops:
   TargetRubyVersion: 2.4
-  DefaultFormatter: fuubar
   DisplayCopNames: true
   ExtraDetails: true
   Exclude:
@@ -24,12 +23,7 @@ Metrics/BlockLength:
   - '**/spec/**/*.rb'
   # Rake DSL
   - '**/rakelib/**/*.rake'
-  # Rubygems DSL
-  - '**/*.gemspec'
-  # Roda DSL
-  - apps/**/http/*.rb
-  # ROM::SQL & Sequel DSL
-  - db/**/*.rb
+  - 'apps/**/application.rb'
 
 Metrics/ClassLength:
   Exclude:
@@ -45,6 +39,7 @@ Metrics/MethodLength:
   - '**/spec/**/*.rb'
   # Rodauth configuration
   - lib/roda/plugins/authentication.rb
+  - 'apps/**/views/**/*.rb'
 
 Metrics/ModuleLength:
   Exclude:
@@ -57,8 +52,7 @@ Metrics/AbcSize:
   - rakelib/**/*.rake
   # RSpec DSL
   - '**/spec/**/*.rb'
-  # Rodauth configuration
-  - lib/roda/plugins/authentication.rb
+  - 'apps/**/views/**/*.rb'
 
 Metrics/LineLength:
   Max: 120
@@ -146,6 +140,9 @@ RSpec/Focus:
 
 RSpec/HookArgument:
   Enabled: true
+
+RSpec/ImplicitSubject:
+  Enabled: false
 
 RSpec/ImplicitExpect:
   Enabled: true

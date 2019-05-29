@@ -33,7 +33,7 @@ build:
   script:
     - ruby -v
     - which ruby
-    - gem install bundler --no-ri --no-rdoc
+    - gem install bundler --no-document
     - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
     - bundle exec hanami db prepare
 
@@ -41,15 +41,15 @@ rubocop:
   extends: .default-cache
   stage: prepare
   script:
-    - gem install bundler --no-ri --no-rdoc
-    - bundle install  --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
     - bundle exec rubocop
 
 rspec:
   extends: .default-cache
   stage: prepare
   script:
-    - gem install bundler --no-ri --no-rdoc
+    - gem install bundler --no-document
     - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
     - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
     - bundle exec hanami db prepare
@@ -70,3 +70,14 @@ pages:
     expire_in: 30 days
   only:
     - master
+
+deploy:
+  stage: deploy
+  when: manual
+  script:
+    - echo "deb http://toolbelt.heroku.com/ubuntu ./" > /etc/apt/sources.list.d/heroku.list
+    - wget -O- https://toolbelt.heroku.com/apt/release.key | apt-key add -
+    - apt-get update
+    - apt-get install -y heroku-toolbelt
+    - gem install dpl
+    - dpl --provider=heroku --app=morning-scrubland-21434 --api-key=$HEROKU_API_KEY

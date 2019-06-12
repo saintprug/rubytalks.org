@@ -1,11 +1,10 @@
-.row
+.row.justify-content-between.mt-3
   - talks.each do |talk|
-    .col-sm-4
-      .card.bg-secondary
-        img.card-img-top
-        .card-body
-          h5.card-title
-            = talk.title
-          p.card-text
-            = talk.description
-          = link_to('Watch', routes.talk_path(talk.id), class: 'btn btn-primary')
+    .card.bg-secondary.card-custom.mx-2.mb-3
+      img.card-img-top
+      .card-body
+        h5.card-title
+          = talk.title
+        p.card-text
+          = talk.description
+      = link_to('Watch', routes.talk_path(talk.id), class: 'btn btn-primary')

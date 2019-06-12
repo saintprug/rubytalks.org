@@ -11,15 +11,15 @@ require_relative './core_ext'
 class Container < Dry::System::Container
   extend Dry::System::Hanami::Resolver
 
-  # use :bootsnap
   use :env
 
   #  Core
   register_folder! 'core/repositories'
+  register_folder! 'utils'
 
-  #  Talks
   register_folder! 'talks/operations'
   register_folder! 'speakers/operations'
+  register_folder! 'events/operations'
 
   configure do |config|
     config.env = Hanami.env

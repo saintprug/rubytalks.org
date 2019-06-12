@@ -1,0 +1,4 @@
+h1 = speaker.full_name
+- speaker.talks.each do |talk|
+  = link_to(talk.title, routes.talk_path(talk.id))
+  br

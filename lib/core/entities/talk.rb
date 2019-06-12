@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
+class Speaker < Hanami::Entity; end
+class Event < Hanami::Entity; end
+
 class Talk < Hanami::Entity
   attributes do
     attribute :id, Types::Int
+
+    attribute :event_id, Types::Int
+    attribute :event, Types::Entity(Event)
+
     attribute :title, Types::String
     attribute :description, Types::String
     attribute :embed_code, Types::String

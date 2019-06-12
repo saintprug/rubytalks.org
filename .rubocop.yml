@@ -24,6 +24,8 @@ Metrics/BlockLength:
   # Rake DSL
   - '**/rakelib/**/*.rake'
   - 'apps/**/application.rb'
+  # Views
+  - 'apps/**/views/**/*.rb'
 
 Metrics/ClassLength:
   Exclude:

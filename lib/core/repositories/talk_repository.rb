@@ -4,7 +4,7 @@ class TalkRepository < Hanami::Repository
   associations do
     has_many :talks_speakers
     has_many :speakers, through: :talks_speakers
-    # belongs_to :event
+    belongs_to :event
   end
 
   def latest(amount: 10)
@@ -16,6 +16,14 @@ class TalkRepository < Hanami::Repository
   end
 
   def find_with_speakers(id)
-    talks.by_pk(id).combine(:speakers).last
+    root.by_pk(id).combine(:speakers).map_to(Talk).one
+  end
+
+  def create_with_speaker(speaker)
+    talks.combine(:speakers, :event).command(:create).call(speaker)
+  end
+
+  def with_speakers
+    aggregate(:speakers).map_to(Talk)
   end
 end

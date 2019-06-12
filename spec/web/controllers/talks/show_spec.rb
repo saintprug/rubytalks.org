@@ -35,7 +35,7 @@ RSpec.describe Web::Controllers::Talks::Show do
     it 'returns successfully response' do
       subject
       expect(subject.first).to eq(200)
-      expect(action.talk[:id]).to eq(talk.id)
+      expect(action.talk.id).to eq(talk.id)
     end
   end
 end

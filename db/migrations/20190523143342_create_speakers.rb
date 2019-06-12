@@ -5,7 +5,9 @@ Hanami::Model.migration do
     create_table :speakers do
       primary_key :id
 
-      column :name, String, null: false
+      column :first_name, String, null: false
+      column :last_name, String, null: false
+      column :slug, String, null: false
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false

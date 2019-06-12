@@ -1,6 +1,9 @@
 # Rubytalks
 
-Welcome to your new Hanami project!
+All Ruby talks in one place.
+
+# Contributing
+If you would like to contribute to the project please read the [CONTRIBUTING.md](https://gitlab.com/kova1/rubytalks/blob/master/CONTRIBUTING.md)
 
 ## Setup
 
@@ -29,5 +32,3 @@ How to prepare (create and migrate) DB for `development` and `test` environments
 
 % HANAMI_ENV=test bundle exec hanami db prepare
 ```
-
-Explore Hanami [guides](http://hanamirb.org/guides/), [API docs](http://docs.hanamirb.org/1.3.1/), or jump in [chat](http://chat.hanamirb.org) for help. Enjoy! 🌸

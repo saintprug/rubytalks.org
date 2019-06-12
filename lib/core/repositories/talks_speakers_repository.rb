@@ -2,7 +2,7 @@
 
 class TalksSpeakersRepository < Hanami::Repository
   associations do
-    belongs_to :speakers
     belongs_to :talks
+    belongs_to :speakers
   end
 end

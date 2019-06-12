@@ -3,6 +3,7 @@
 # Require this file for unit tests
 ENV['HANAMI_ENV'] ||= 'test'
 
+require 'support/simplecov'
 require 'faker'
 require_relative '../config/environment'
 

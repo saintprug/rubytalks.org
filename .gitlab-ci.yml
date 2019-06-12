@@ -71,6 +71,7 @@ pages:
   only:
     - master
 
+# TODO: fix deploy to heroku
 deploy:
   stage: deploy
   when: manual

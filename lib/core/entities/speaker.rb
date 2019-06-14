@@ -13,8 +13,4 @@ class Speaker < Hanami::Entity
     attribute :updated_at, Types::DateTime
     attribute :talks, Types::Collection(Talk)
   end
-
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 end

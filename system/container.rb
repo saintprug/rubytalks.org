@@ -21,6 +21,10 @@ class Container < Dry::System::Container
   register_folder! 'speakers/operations'
   register_folder! 'events/operations'
 
+  register 'web.forms.talk_form' do
+    Web::Forms::TalkForm.new
+  end
+
   configure do |config|
     config.env = Hanami.env
   end

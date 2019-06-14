@@ -7,17 +7,18 @@ module Web
         include Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
-          operation: 'talks.operations.create'
+          operation: 'talks.operations.create',
+          form: 'web.forms.talk_form'
         ]
 
         def call(params)
-          form = Web::Forms::TalkForm.new.call(params[:talk])
-          if form.success?
-            operation.call(form.to_h)
+          form_response = form.call(params[:talk])
+          if form_response.success?
+            operation.call(form_response.to_h)
             flash[:success] = 'Talk has been created. It will appear in list when Administrator approves it'
             redirect_to routes.talks_path
           else
-            self.body = 'Something wend bad :('
+            self.body = 'Something went bad :('
           end
         end
       end

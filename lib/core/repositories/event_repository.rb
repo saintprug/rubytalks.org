@@ -12,14 +12,23 @@ class EventRepository < Hanami::Repository
   end
 
   def find_with_talks(id:)
-    root.by_pk(id).combine(:talks).map_to(Event).one!
+    root
+      .by_pk(id)
+      .combine(:talks)
+      .map_to(Event)
+      .one!
   end
 
   def latest(amount: 10)
-    order_by_ended_at.combine(:talks).map_to(Event).limit(amount)
+    order_by_ended_at
+      .combine(:talks)
+      .map_to(Event)
+      .limit(amount)
+      .to_a
   end
 
   def order_by_ended_at
-    root.order(:ended_at)
+    root
+      .order(:ended_at)
   end
 end

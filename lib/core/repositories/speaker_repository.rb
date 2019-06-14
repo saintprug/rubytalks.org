@@ -19,10 +19,15 @@ class SpeakerRepository < Hanami::Repository
   end
 
   def find_with_talks(id:)
-    root.by_pk(id).combine(:talks).map_to(Speaker).one
+    root
+      .by_pk(id)
+      .combine(:talks)
+      .map_to(Speaker)
+      .one
   end
 
   def all
-    root.map_to(Speaker)
+    root
+      .map_to(Speaker)
   end
 end

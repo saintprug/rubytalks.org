@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'seeder'
+
 desc 'Populates db with records'
 task seeds: :environment do
-  Utils::Seeder.new.call
+  Seeder.new.call
 end

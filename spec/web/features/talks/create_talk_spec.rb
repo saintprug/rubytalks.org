@@ -22,7 +22,7 @@ RSpec.describe 'create new talk', type: :feature do
       click_button('Create')
 
       expect(page.status_code).to eq(200)
-      expect(page).to have_content('Talk has been created. It will appear in list when Administrator approves it')
+      expect(page).to have_content('Talk has been created. It will appear in the list when Administrator approves it')
     end
   end
 end

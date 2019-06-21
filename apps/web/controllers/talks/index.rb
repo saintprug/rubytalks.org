@@ -5,6 +5,7 @@ module Web
     module Talks
       class Index
         include Web::Action
+        include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.list'
         ]
@@ -12,7 +13,14 @@ module Web
         expose :talks
 
         def call(params)
-          @talks = operation.call(params)
+          result = operation.call(params)
+
+          case result
+          when Success
+            @talks = result.value!
+          else
+            halt 400, 'Something went wrong'
+          end
         end
       end
     end

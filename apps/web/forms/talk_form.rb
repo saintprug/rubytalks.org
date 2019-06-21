@@ -21,7 +21,7 @@ module Web
         required(:talked_at).filled(:date_time?)
         required(:link).filled(:str?)
         required(:speaker).schema(SpeakerSchema)
-        required(:event).schema(EventSchema)
+        optional(:event).schema(EventSchema)
       end
 
       def call(params)

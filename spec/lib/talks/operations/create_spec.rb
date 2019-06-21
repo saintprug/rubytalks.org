@@ -15,7 +15,7 @@ RSpec.describe Talks::Operations::Create do
 
   context 'with real data' do
     before do
-      allow(oembed).to receive(:get).and_return(OpenStruct.new(html: '<iframe width="100%" height="300px" src="https://www.youtube.com/embed/0nc3SXoObs8" frameborder="0" allowfullscreen></iframe>'))
+      allow(oembed).to receive(:get).and_return(OpenStruct.new(html: '<iframe width="100%" height="300px" src="https://www.youtube.com/embed/0nc3SXoObs8" frameborder="0" allowfullscreen></iframe>')) # rubocop: disable Metrics/LineLength
     end
 
     let(:operation) { described_class.new(oembed: oembed) }

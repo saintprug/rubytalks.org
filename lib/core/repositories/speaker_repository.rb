@@ -29,5 +29,6 @@ class SpeakerRepository < Hanami::Repository
   def all
     root
       .map_to(Speaker)
+      .to_a
   end
 end

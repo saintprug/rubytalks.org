@@ -5,6 +5,7 @@ module Web
     module Events
       class Index
         include Web::Action
+        include Dry::Monads::Result::Mixin
         include Import[
           operation: 'events.operations.list'
         ]
@@ -12,7 +13,14 @@ module Web
         expose :events
 
         def call(params)
-          @events = operation.call(params).value!
+          result = operation.call(params)
+
+          case result
+          when Success
+            @events = result.value!
+          else
+            halt 400, 'Something went wrong'
+          end
         end
       end
     end

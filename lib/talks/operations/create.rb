@@ -4,43 +4,70 @@ module Talks
   module Operations
     class Create < Operation
       include Import[
-        'oembed',
+        oembed: 'oembed',
         talk_repo: 'repositories.talk',
         speaker_repo: 'repositories.speaker',
         event_repo: 'repositories.event',
         talks_speakers_repo: 'repositories.talks_speakers',
-        create_speaker: 'speakers.operations.create',
-        create_event: 'events.operations.create'
       ]
 
-      # get talk url and generate embed code
-      # if code successfully generated -> save the record, set approve to false
-      # if code is invalid -> doesn't save the record, return error
-      # rubocop:disable Metrics/AbcSize
       def call(talk_form)
-        link = talk_form.delete(:link)
-        talk_form[:embed_code] = oembed.get(link).html
-
+        oembed = yield generate_oembed(talk_form.delete(:link))
         talk_repo.transaction do
-          speaker = find_or_create_speaker(talk_form[:speaker])
-          event = find_or_create_event(talk_form[:event])
-          talk = talk_repo.create(**talk_form, event_id: event.id)
-          talks_speakers_repo.create(talk_id: talk.id, speaker_id: speaker.id)
+          speaker = yield find_or_create_speaker(talk_form[:speaker])
+          event   = yield find_or_create_event(talk_form[:event])
+          talk    = yield create_talk(talk_form, oembed, event.id)
+          yield create_talk_speaker(talk.id, speaker.id)
+          Success(talk)
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       private
 
-      def find_or_create_speaker(speaker)
-        speaker_repo.find_by_name(
-          first_name: speaker[:first_name],
-          last_name: speaker[:last_name]
-        ) || create_speaker.call(speaker)
+      def generate_oembed(link)
+        Try(OEmbed::Error) { oembed.get(link).html }
       end
 
-      def find_or_create_event(event)
-        event_repo.find_by_name(name: event[:name]) || create_event.call(event)
+      def create_talk_speaker(talk_id, speaker_id)
+        talk_speaker = talks_speakers_repo.create(talk_id: talk_id, speaker_id: speaker_id)
+
+        if talk_speaker
+          Success(talk_speaker)
+        else
+          Failure('could not create talk_speaker')
+        end
+      end
+
+      def create_talk(talk_form, oembed, event_id)
+        talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id, published: false)
+
+        if talk
+          Success(talk)
+        else
+          Failure('could not create talk')
+        end
+      end
+
+      def find_or_create_speaker(speaker_form)
+        speaker = speaker_repo.find_by_name(first_name: speaker_form[:first_name], last_name: speaker_form[:last_name])
+
+        if speaker
+          Success(speaker)
+        else
+          new_speaker = speaker_repo.create(**speaker_form)
+          new_speaker ? Success(new_speaker) : Failure('could not create speaker')
+        end
+      end
+
+      def find_or_create_event(event_form)
+        event = event_repo.find_by_name(name: event_form[:name])
+
+        if event
+          Success(event)
+        else
+          new_event = event_repo.create(**event_form)
+          new_event ? Success(new_event) : Failure('could not create event')
+        end
       end
     end
   end

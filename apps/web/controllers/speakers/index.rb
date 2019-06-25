@@ -5,6 +5,7 @@ module Web
     module Speakers
       class Index
         include Web::Action
+        include Dry::Monads::Result::Mixin
         include Import[
           operation: 'speakers.operations.list'
         ]
@@ -12,7 +13,14 @@ module Web
         expose :speakers
 
         def call(params)
-          @speakers = operation.call(params).value!
+          result = operation.call(params)
+
+          case result
+          when Success
+            @speakers = result.value!
+          else
+            halt 400, 'Something went wrong'
+          end
         end
       end
     end

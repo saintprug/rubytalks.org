@@ -6,6 +6,6 @@ Container.boot(:oembed) do |container|
 
     OEmbed::Providers.register_all
 
-    container.register(:oembed, OEmbed::Providers)
+    container.register('oembed', OEmbed::Providers)
   end
 end

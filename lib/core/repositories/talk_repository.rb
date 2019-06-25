@@ -8,22 +8,23 @@ class TalkRepository < Hanami::Repository
   end
 
   def latest(amount: 10)
-    order_by_date.limit(amount)
-  end
-
-  def order_by_date
-    talks.order(:talked_at)
+    order_by_date
+      .limit(amount)
+      .to_a
   end
 
   def find_with_speakers(id)
-    root.by_pk(id).combine(:speakers).map_to(Talk).one
+    root
+      .by_pk(id)
+      .combine(:speakers)
+      .map_to(Talk)
+      .one
   end
 
-  def create_with_speaker(speaker)
-    talks.combine(:speakers, :event).command(:create).call(speaker)
-  end
+  private
 
-  def with_speakers
-    aggregate(:speakers).map_to(Talk)
+  def order_by_date
+    talks
+      .order(:talked_at)
   end
 end

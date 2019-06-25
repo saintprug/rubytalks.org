@@ -8,7 +8,7 @@ module Talks
       ]
 
       def call(_params)
-        talk_repo.latest
+        Success(talk_repo.latest)
       end
     end
   end

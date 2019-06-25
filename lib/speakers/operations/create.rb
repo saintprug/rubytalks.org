@@ -8,14 +8,13 @@ module Speakers
       ]
 
       def call(**speaker_form)
-        speaker_form[:slug] = generate_slug(speaker_form[:first_name], speaker_form[:last_name])
-        speaker_repo.create(speaker_form)
-      end
+        speaker = speaker_repo.create(**speaker_form)
 
-      private
-
-      def generate_slug(first_name, last_name)
-        [first_name, last_name].join('-').downcase
+        if speaker
+          Success(speaker)
+        else
+          Failure('could not create speaker')
+        end
       end
     end
   end

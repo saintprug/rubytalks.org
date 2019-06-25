@@ -7,7 +7,7 @@ module Web
         include Web::View
 
         def title
-          "Speakers | #{speaker.full_name}"
+          'Speaker page'
         end
       end
     end

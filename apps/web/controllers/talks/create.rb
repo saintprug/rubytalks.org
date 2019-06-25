@@ -7,17 +7,26 @@ module Web
         include Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
-          operation: 'talks.operations.create'
+          operation: 'talks.operations.create',
+          form: 'web.forms.talk_form'
         ]
 
-        def call(params)
-          form = Web::Forms::TalkForm.new.call(params[:talk])
-          if form.success?
-            operation.call(form.to_h)
-            flash[:success] = 'Talk has been created. It will appear in list when Administrator approves it'
-            redirect_to routes.talks_path
+        def call(params) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+          form_response = form.call(params[:talk])
+          if form_response.success?
+            result = operation.call(form_response.to_h)
+            if result.success?
+              flash[:success] = 'Talk has been created. It will appear in the list when Administrator approves it'
+              redirect_to routes.talks_path
+            else
+              self.status = 422
+            end
           else
-            self.body = 'Something wend bad :('
+            self.body = Web::Views::Talks::New.render(
+              format: :html,
+              params: {},
+              flash: { errors: form_response.errors }
+            )
           end
         end
       end

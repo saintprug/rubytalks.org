@@ -1,4 +1,4 @@
-h1 = speaker.full_name
+h1 = full_name(speaker)
 - speaker.talks.each do |talk|
   = link_to(talk.title, routes.talk_path(talk.id))
   br

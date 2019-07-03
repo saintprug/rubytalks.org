@@ -3,6 +3,8 @@
 class Talk < Hanami::Entity; end
 
 class Event < Hanami::Entity
+  States = Types::Strict::String.enum('unpublished', 'approved', 'declined')
+
   attributes do
     attribute :id, Types::Int
     attribute :name, Types::String
@@ -10,6 +12,7 @@ class Event < Hanami::Entity
     attribute :started_at, Types::DateTime
     attribute :ended_at, Types::DateTime
     attribute :talks, Types::Collection(Talk)
+    attribute :state, States
 
     attribute :created_at, Types::DateTime
     attribute :updated_at, Types::DateTime

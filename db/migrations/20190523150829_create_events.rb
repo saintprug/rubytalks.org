@@ -10,6 +10,7 @@ Hanami::Model.migration do
 
       column :started_at, DateTime
       column :ended_at, DateTime
+      column :state, String, null: false, default: 'unpublished'
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false

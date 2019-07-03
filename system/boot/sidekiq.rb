@@ -5,11 +5,11 @@ Container.boot(:sidekiq) do |container|
   #   use :redis
   #
   #   Sidekiq.configure_server do |config|
-  #     config.redis = container['persistance.redis']
+  #     config.redis = container['persistence.redis']
   #   end
   #
   #   Sidekiq.configure_client do |config|
-  #     config.redis = container['persistance.redis']
+  #     config.redis = container['persistence.redis']
   #   end
   # end
 end

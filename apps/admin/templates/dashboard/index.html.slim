@@ -1,0 +1,19 @@
+h1 Talks to approve
+.list-group
+  - talks.each do |talk|
+    .list-group-item.flex-column.align-items-start
+      .d-flex.w-100.justify-content-between
+        = talk.title
+        .actions.d-flex.justify-content-between
+          = link_to('Edit', routes.edit_talk_path(talk.id), class: 'btn btn-secondary')
+          = decline_button(talk.id)
+          = approve_button(talk.id)
+      p = "Speakers: #{talk.speakers.map(&method(:full_name)).join(', ')}"
+      - if talk.event
+        div
+          | Event:
+          span = " name: #{talk.event.name }"
+          span = " city: #{talk.event.city }"
+          span = " started at: #{format_date(talk.event.started_at) }"
+          span = " ended at: #{format_date(talk.event.ended_at) }"
+

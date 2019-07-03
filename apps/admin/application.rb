@@ -83,7 +83,7 @@ module Admin
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      # sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET']
+      sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET']
 
       # Configure Rack middleware for this application
       #
@@ -147,7 +147,7 @@ module Admin
         # See: http://hanamirb.org/guides/assets/compressors
         #
         # In order to skip stylesheet compression comment the following line
-        stylesheet_compressor :builtin
+        stylesheet_compressor :sass
 
         # Specify sources for assets
         #
@@ -234,16 +234,16 @@ module Admin
         frame-ancestors 'self';
         base-uri 'self';
         default-src 'none';
-        script-src 'self';
+        script-src 'self' www.youtube.com;
         connect-src 'self';
-        img-src 'self' https: data:;
+        img-src 'self';
         style-src 'self' 'unsafe-inline' https:;
         font-src 'self';
         object-src 'none';
         plugin-types application/pdf;
-        child-src 'self';
-        frame-src 'self';
-        media-src 'self'
+        worker-src 'self';
+        frame-src 'self' www.youtube.com;
+        media-src 'self';
       )
 
       ##
@@ -265,6 +265,7 @@ module Admin
       # See: http://www.rubydoc.info/gems/hanami-view#Configuration
       view.prepare do
         include Hanami::Helpers
+        include Core::Helpers::SpeakerHelper
         include Admin::Assets::Helpers
       end
     end

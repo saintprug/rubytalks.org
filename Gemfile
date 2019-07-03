@@ -12,10 +12,6 @@ gem 'pg'
 
 gem 'xml-sitemap'
 
-# storage
-gem 'hanami-shrine'
-gem 'shrine'
-
 # templates, preprocessors
 gem 'hanami-bootstrap'
 gem 'jquery-hanami'
@@ -28,16 +24,21 @@ gem 'dry-system', '~> 0.9.0'
 gem 'dry-system-hanami', github: 'davydovanton/dry-system-hanami'
 gem 'dry-validation'
 
-# objects generation
-# added here cause factory bot has active support as its dependency :(
-gem 'factory_bot'
-
 # logging
 gem 'awesome_print'
 gem 'semantic_logger'
 
 # generate embed from url
 gem 'ruby-oembed'
+
+# TODO: add for upload files
+# storage
+# gem 'hanami-shrine'
+# gem 'shrine'
+
+# TODO: add pagination
+# pagination
+#gem 'hanami-pagination', github: 'davydovanton/hanami-pagination'
 
 # TODO: add youtube parser
 # YouTube client

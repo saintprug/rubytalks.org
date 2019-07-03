@@ -25,6 +25,7 @@ class SpeakerRepository < Hanami::Repository
 
   def find_with_talks(id:)
     root
+      .where(state: 'approved')
       .by_pk(id)
       .combine(:talks)
       .map_to(Speaker)
@@ -33,6 +34,7 @@ class SpeakerRepository < Hanami::Repository
 
   def all
     root
+      .where(state: 'approved')
       .map_to(Speaker)
       .to_a
   end

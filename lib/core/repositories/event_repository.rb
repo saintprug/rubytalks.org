@@ -14,6 +14,7 @@ class EventRepository < Hanami::Repository
   def find_with_talks(id:)
     root
       .by_pk(id)
+      .where(state: 'approved')
       .combine(:talks)
       .map_to(Event)
       .one!
@@ -21,6 +22,7 @@ class EventRepository < Hanami::Repository
 
   def latest(amount: 10)
     order_by_ended_at
+      .where(state: 'approved')
       .combine(:talks)
       .map_to(Event)
       .limit(amount)

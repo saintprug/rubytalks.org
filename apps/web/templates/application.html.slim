@@ -26,8 +26,10 @@ html[lang="en"]
             li.nav-item
               = link_to 'Add talk', routes.new_talk_path, class: ' btn btn-danger btn-sm'
       - if flash[:success]
-        .alert.alert-success
+        .alert.alert-success.alert-dismissible.fade.show
           = flash[:success]
+          button.close aria-label="Close" data-dismiss="alert" type="button"
+            span aria-hidden="true"  &times;
       main.inner.cover[role="main"]
         = yield
       = render partial: 'shared/footer'

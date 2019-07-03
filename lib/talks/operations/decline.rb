@@ -2,7 +2,7 @@
 
 module Talks
   module Operations
-    class Approve < Operation
+    class Decline < Operation
       include Import[
         talk_repo: 'repositories.talk',
         speaker_repo: 'repositories.speaker',
@@ -10,10 +10,9 @@ module Talks
         talks_speakers_repo: 'repositories.talks_speakers'
       ]
 
-      # set Talk state to 'approved'
-      # set Speaker state to 'approved'
-      # create talks_speakers relation
-      # set Event state to 'approved' if Event presents
+      # set Talk state to 'decline'
+      # set Speaker state to 'decline'
+      # set Event state to 'decline' if Event presents
       def call(id)
         talk = yield find_talk(id)
         talk_repo.transaction do
@@ -21,7 +20,7 @@ module Talks
           yield update_speakers_state(talk.speakers)
           yield update_event_state(talk.event_id) if talk.event_id
         end
-        Success('Talk successfully approved')
+        Success('Talk declined')
       end
 
       private
@@ -31,19 +30,19 @@ module Talks
       end
 
       def update_talk_state(id)
-        Try(Hanami::Model::Error) { talk_repo.update(id, state: 'approved') }
+        Try(Hanami::Model::Error) { talk_repo.update(id, state: 'declined') }
       end
 
       def update_speakers_state(speakers)
         Try(Hanami::Model::Error) do
           speakers.map(&:id).each do |speaker_id|
-            speaker_repo.update(speaker_id, state: 'approved')
+            speaker_repo.update(speaker_id, state: 'declined')
           end
         end
       end
 
       def update_event_state(event_id)
-        Try(Hanami::Model::Error) { event_repo.update(event_id, state: 'approved') }
+        Try(Hanami::Model::Error) { event_repo.update(event_id, state: 'declined') }
       end
     end
   end

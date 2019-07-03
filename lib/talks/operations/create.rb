@@ -28,6 +28,7 @@ module Talks
         Try(OEmbed::Error) { oembed.get(link).html }
       end
 
+      # move to approve operation?
       def create_talk_speaker(talk_id, speaker_id)
         talk_speaker = talks_speakers_repo.create(talk_id: talk_id, speaker_id: speaker_id)
 
@@ -39,7 +40,7 @@ module Talks
       end
 
       def create_talk(talk_form, oembed, event_id)
-        talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id, published: false)
+        talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id) # state `unpublished` by default
 
         if talk
           Success(talk)
@@ -54,7 +55,7 @@ module Talks
         if speaker
           Success(speaker)
         else
-          new_speaker = speaker_repo.create(**speaker_form)
+          new_speaker = speaker_repo.create(**speaker_form) # state `unpublished` by default
           new_speaker ? Success(new_speaker) : Failure('could not create speaker')
         end
       end
@@ -65,7 +66,7 @@ module Talks
         if event
           Success(event)
         else
-          new_event = event_repo.create(**event_form)
+          new_event = event_repo.create(**event_form) # state `unpublished` by default
           new_event ? Success(new_event) : Failure('could not create event')
         end
       end

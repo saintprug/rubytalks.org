@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'shared/base'
+require_relative 'shared/stateable'
+
 class SpeakerRepository < Hanami::Repository
+  include Base
+  include Stateable
+
   associations do
     has_many :talks_speakers
     has_many :talks, through: :talks_speakers
@@ -24,17 +30,13 @@ class SpeakerRepository < Hanami::Repository
   end
 
   def find_with_talks(id:)
-    root
-      .where(state: 'approved')
-      .by_pk(id)
-      .combine(:talks)
+    with_relations(with_state(root.by_pk(id), 'approved'), :talks)
       .map_to(Speaker)
-      .one
+      .one!
   end
 
   def all
-    root
-      .where(state: 'approved')
+    with_state(root, 'approved')
       .map_to(Speaker)
       .to_a
   end

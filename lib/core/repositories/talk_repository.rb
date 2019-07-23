@@ -1,27 +1,29 @@
 # frozen_string_literal: true
 
+require_relative 'shared/base'
+require_relative 'shared/stateable'
+
 class TalkRepository < Hanami::Repository
+  include Base
+  include Stateable
+
   associations do
     has_many :talks_speakers
     has_many :speakers, through: :talks_speakers
     belongs_to :event
   end
 
-  # TODO: move state related stuff to generic module
   def latest(amount: 10)
-    order_by_date
-      .where(state: 'approved')
+    order_by_date(with_state(root, 'approved'))
       .limit(amount)
+      .map_to(Talk)
       .to_a
   end
 
   def find_with_speakers(id)
-    root
-      .by_pk(id)
-      .where(state: 'approved')
-      .combine(:speakers)
+    with_state(with_relations(root.by_pk(id), :speakers), 'approved')
       .map_to(Talk)
-      .one
+      .one!
   end
 
   def for_approve(amount: 10)
@@ -41,8 +43,9 @@ class TalkRepository < Hanami::Repository
       .order(:talked_at)
   end
 
-  def order_by_created_at
-    root
-      .order(:created_at)
+  private
+
+  def order_by_date(relation)
+    relation.order { talked_at.desc }
   end
 end

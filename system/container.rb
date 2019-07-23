@@ -3,6 +3,7 @@
 require 'dry/system/container'
 require 'dry/system/hanami'
 require_relative '../lib/core/operation'
+require_relative '../lib/types'
 require_relative './core_ext'
 
 # General container class for project dependencies

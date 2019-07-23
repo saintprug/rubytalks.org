@@ -2,6 +2,9 @@
 
 root to: 'dashboard#index'
 
-resources :approve_talk, only: :update
-resources :decline_talk, only: :update
-resources :talks, only: %i[update edit]
+resources :talks, only: %i[update edit] do
+  member do
+    patch 'approve'
+    patch 'decline'
+  end
+end

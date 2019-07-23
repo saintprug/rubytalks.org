@@ -2,8 +2,8 @@
 
 module Admin
   module Controllers
-    module DeclineTalk
-      class Update
+    module Talks
+      class Decline
         include Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
@@ -12,10 +12,12 @@ module Admin
 
         def call(params)
           result = operation.call(params[:id])
-          if result.success?
+          case result
+          when Success
             flash[:success] = 'Talk has been declined'
-          else
-            flash[:error] = 'Talk has not been declined'
+          when Failure
+            # TODO: log to rollbar/sentry
+            flash[:error] = 'Something wrong. Talk has not been declined'
           end
           redirect_to routes.root_url
         end

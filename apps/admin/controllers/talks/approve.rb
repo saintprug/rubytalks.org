@@ -2,8 +2,8 @@
 
 module Admin
   module Controllers
-    module ApproveTalk
-      class Update
+    module Talks
+      class Approve
         include Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
@@ -12,10 +12,12 @@ module Admin
 
         def call(params)
           result = operation.call(params[:id])
-          if result.success?
+          case result
+          when Success
             flash[:success] = 'Talk has been approved'
-          else
-            flash[:error] = 'Talk has not been approved'
+          when Failure
+            # TODO: log to rollbar/sentry
+            flash[:error] = 'Something wrong. Talk has not been approved'
           end
           redirect_to routes.root_url
         end

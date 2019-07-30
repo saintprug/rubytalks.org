@@ -7,7 +7,7 @@ module Admin
         include Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
-          operation: 'talks.operations.find'
+          operation: 'talks.operations.find_unapproved'
         ]
 
         expose :talk

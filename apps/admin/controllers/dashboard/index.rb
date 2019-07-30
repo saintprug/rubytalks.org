@@ -21,6 +21,7 @@ module Admin
           when Success
             @talks = result.value!
           else
+            # TODO: log to rollbar/sentry
             halt 400, 'Something went wrong'
           end
         end

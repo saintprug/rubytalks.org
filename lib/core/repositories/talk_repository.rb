@@ -20,27 +20,30 @@ class TalkRepository < Hanami::Repository
       .to_a
   end
 
-  def find_with_speakers(id)
-    with_state(with_relations(root.by_pk(id), :speakers), 'approved')
+  # with state `unpublished` and `declined`
+  def find_unapproved(id)
+    without_state(with_relations(root.by_pk(id), :speakers, :event), 'approved')
+      .map_to(Talk)
+      .one!
+  end
+
+  def find_approved_with_speakers_and_event(id)
+    with_state(with_relations(root.by_pk(id), :speakers, :event), 'approved')
       .map_to(Talk)
       .one!
   end
 
   def for_approve(amount: 10)
-    order_by_created_at
-      .where(state: 'unpublished')
-      .combine(:speakers)
-      .combine(:event)
-      .map_to(Talk)
+    with_relations(with_state(order_by_created_at(root), 'unpublished'), :speakers, :event)
       .limit(amount)
+      .map_to(Talk)
       .to_a
   end
 
-  private
-
-  def order_by_date
-    talks
-      .order(:talked_at)
+  def find_with_speakers_and_event(id)
+    with_relations(root.by_pk(id), :speakers, :event)
+      .map_to(Talk)
+      .one!
   end
 
   private

@@ -12,12 +12,12 @@ module Talks
       ]
 
       def call(talk_form)
-        oembed = yield generate_oembed(talk_form.delete(:link))
+        oembed = yield generate_oembed(talk_form[:link])
         talk_repo.transaction do
-          speaker = yield find_or_create_speaker(talk_form[:speaker])
+          speakers = yield find_or_create_speakers(talk_form[:speakers])
           event   = yield find_or_create_event(talk_form[:event])
-          talk    = yield create_talk(talk_form, oembed, event.id)
-          yield create_talk_speaker(talk.id, speaker.id)
+          talk    = yield event ? create_talk(talk_form, oembed, event.id) : create_talk(talk_form, oembed)
+          yield create_talk_speakers(talk.id, speakers)
           Success(talk)
         end
       end
@@ -26,6 +26,10 @@ module Talks
 
       def generate_oembed(link)
         Try(OEmbed::Error) { oembed.get(link).html }
+      end
+
+      def create_talk_speakers(talk_id, speakers)
+        Dry::Monads::List[*speakers.map { |speaker| create_talk_speaker(talk_id, speaker.id) }].typed(Dry::Monads::Result).traverse
       end
 
       # move to approve operation?
@@ -39,7 +43,7 @@ module Talks
         end
       end
 
-      def create_talk(talk_form, oembed, event_id)
+      def create_talk(talk_form, oembed, event_id = nil)
         talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id) # state `unpublished` by default
 
         if talk
@@ -47,6 +51,10 @@ module Talks
         else
           Failure('could not create talk')
         end
+      end
+
+      def find_or_create_speakers(speaker_forms)
+        Dry::Monads::List[*speaker_forms.map(&method(:find_or_create_speaker))].typed(Dry::Monads::Result).traverse
       end
 
       def find_or_create_speaker(speaker_form)
@@ -61,8 +69,9 @@ module Talks
       end
 
       def find_or_create_event(event_form)
-        event = event_repo.find_by_name(name: event_form[:name])
+        return Success(nil) unless event_form
 
+        event = event_repo.find_by_name(name: event_form[:name])
         if event
           Success(event)
         else

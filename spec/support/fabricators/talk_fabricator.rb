@@ -7,6 +7,7 @@ Fabricator(:talk) do
   embed_code { '<iframe width="100%" height="300px" src="https://www.youtube.com/embed/0nc3SXoObs8" frameborder="0" allowfullscreen></iframe>' }
   # rubocop: enable Metrics/LineLength
   talked_at { DateTime.now }
+  link { 'https://www.youtube.com/watch?v=t99KH0TR-J4' }
 end
 
 Fabricator(:talk_with_speaker, from: :talk) do

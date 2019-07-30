@@ -12,6 +12,7 @@ class Talk < Hanami::Entity
 
     attribute :title, Types::String
     attribute :description, Types::String
+    attribute :link, Types::String
     attribute :embed_code, Types::String
     attribute :speakers, Types::Collection(Speaker)
     attribute :talked_at, Types::DateTime
@@ -20,23 +21,4 @@ class Talk < Hanami::Entity
     attribute :created_at, Types::DateTime
     attribute :updated_at, Types::DateTime
   end
-
-  # Trying to add aasm to hanami entity
-  # include AASM
-  #
-  # def initialize
-  # end
-  #
-  # aasm(:state) do
-  #   state :unpublished, initial: true
-  #   state :approved, :declined
-  #
-  #   event :publish do
-  #     transitions from: :unpublished, to: :approved, if: :unpublished?
-  #   end
-  #
-  #   event :unpublish do
-  #     transitions from: :approved, to: :approved, if: :unpublished?
-  #   end
-  # end
 end

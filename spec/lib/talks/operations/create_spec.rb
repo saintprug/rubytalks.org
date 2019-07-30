@@ -6,10 +6,10 @@ RSpec.describe Talks::Operations::Create do
   let(:oembed) { class_double('OEmbed::Providers') }
 
   let(:talk_form) do
-    Fabricate.attributes_for(:talk).symbolize_keys.merge(
-      speaker: Fabricate.attributes_for(:speaker).symbolize_keys,
-      event: Fabricate.attributes_for(:event).symbolize_keys,
-      talk: Fabricate.attributes_for(:talk).symbolize_keys
+    Fabricate.attributes_for(:talk).merge(
+      speakers: [Fabricate.attributes_for(:speaker)],
+      event: Fabricate.attributes_for(:event),
+      talk: Fabricate.attributes_for(:talk)
     )
   end
 

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe Talks::Operations::Find do
+RSpec.describe Talks::Operations::FindApproved do
   subject { operation.call(id: 1) }
 
   let(:operation) { described_class.new(talk_repo: talk_repo) }
-  let(:talk_repo) { instance_double('TalkRepository', find_with_speakers: Talk.new) }
+  let(:talk_repo) { instance_double('TalkRepository', find_approved_with_speakers_and_event: Talk.new) }
 
   context 'when talk exists' do
     it { expect(subject).to be_success }
@@ -14,7 +14,9 @@ RSpec.describe Talks::Operations::Find do
   context 'when talk does not exist' do
     let(:talk_repo) { instance_double('TalkRepository') }
 
-    before { allow(talk_repo).to receive(:find_with_speakers).and_raise(ROM::TupleCountMismatchError) }
+    before do
+      allow(talk_repo).to receive(:find_approved_with_speakers_and_event).and_raise(ROM::TupleCountMismatchError)
+    end
 
     it { expect(subject).to be_failure }
   end
@@ -22,7 +24,7 @@ RSpec.describe Talks::Operations::Find do
   context 'with real data' do
     subject { operation.call(id: talk.id) }
 
-    let(:talk) { Fabricate.create(:talk) }
+    let(:talk) { Fabricate.create(:approved_talk) }
     let(:operation) { described_class.new }
 
     it { expect(subject).to be_success }

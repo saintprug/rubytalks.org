@@ -22,7 +22,7 @@ RSpec.describe Speakers::Operations::Find do
   context 'with real data' do
     subject { operation.call(id: speaker.id) }
 
-    let(:speaker) { Fabricate.create(:speaker) }
+    let(:speaker) { Fabricate.create(:approved_speaker) }
     let(:operation) { described_class.new }
 
     it { expect(subject).to be_success }

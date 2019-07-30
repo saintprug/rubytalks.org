@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /speakers', type: :feature do
-  let!(:speakers) { Fabricate.times(3, :speaker) }
+  let!(:speakers) { Fabricate.times(3, :approved_speaker) }
   let(:url) { '/speakers' }
 
   it 'returns speakers page' do

@@ -20,7 +20,7 @@ RSpec.describe Speakers::Operations::List do
   end
 
   context 'with real data' do
-    let!(:speakers) { Fabricate.times(3, :speaker) }
+    let!(:speakers) { Fabricate.times(3, :approved_speaker) }
     let(:operation) { described_class.new }
 
     it { expect(subject).to be_success }

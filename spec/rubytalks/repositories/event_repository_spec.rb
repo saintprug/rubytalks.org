@@ -6,7 +6,7 @@ RSpec.describe EventRepository, type: :repository do
   describe '.find_with_talks' do
     subject { repo.find_with_talks(id: event_id) }
 
-    let(:event_id) { Fabricate(:event).id }
+    let(:event_id) { Fabricate(:approved_event).id }
 
     context 'when event exists' do
       it 'returns event by id' do

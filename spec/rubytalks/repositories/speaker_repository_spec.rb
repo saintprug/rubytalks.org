@@ -45,4 +45,29 @@ RSpec.describe SpeakerRepository, type: :repository do
       end
     end
   end
+
+  describe '#find_with_talks' do
+    subject { described_class.new.find_with_talks(id: approved_speaker_id) }
+
+    let!(:unapproved_speakers) { Fabricate.times(5, :speaker) }
+    let(:approved_speakers) { Fabricate.times(5, :approved_speaker) }
+    let(:approved_speaker_id) { approved_speakers.last.id }
+
+    it 'returns speaker by id' do
+      expect(subject).to be_instance_of(Speaker)
+      expect(subject.id).to eq(approved_speaker_id)
+    end
+  end
+
+  describe '#all' do
+    subject { described_class.new.all }
+
+    let!(:unapproved_speakers) { Fabricate.times(5, :speaker) }
+    let!(:approved_speakers) { Fabricate.times(6, :approved_speaker) }
+
+    it 'returns all approved speakers' do
+      expect(subject.length).to eq(6)
+      expect(subject.map(&:id)).to match_array(approved_speakers.map(&:id))
+    end
+  end
 end

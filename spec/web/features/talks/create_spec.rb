@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'create new talk', type: :feature do
+RSpec.describe 'POST /talks', type: :feature do
   let(:url) { '/talks/new' }
 
   context 'when all fields are filled' do
@@ -19,7 +19,7 @@ RSpec.describe 'create new talk', type: :feature do
       fill_in 'Event started at', with: '06/01/2019'
       fill_in 'Event ended at', with: '06/02/2019'
 
-      click_button('Create')
+      click_button('Create talk')
 
       expect(page.status_code).to eq(200)
       expect(page).to have_content('Talk has been created. It will appear in the list when Administrator approves it')

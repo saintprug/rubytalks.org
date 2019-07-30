@@ -5,7 +5,7 @@ RSpec.describe Events::Operations::Create do
 
   let(:operation) { described_class.new(event_repo: event_repo) }
   let(:event_repo) { instance_double('EventRepository', create: Event.new) }
-  let(:event_form) { Fabricate.attributes_for(:event).symbolize_keys }
+  let(:event_form) { Fabricate.attributes_for(:event) }
 
   context 'when event form is valid' do
     it { expect(subject).to be_success }

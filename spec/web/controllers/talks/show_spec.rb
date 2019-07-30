@@ -28,7 +28,7 @@ RSpec.describe Web::Controllers::Talks::Show do
   end
 
   context 'with real data' do
-    let(:talk) { Fabricate.create(:talk) }
+    let(:talk) { Fabricate.create(:approved_talk) }
     let(:action) { described_class.new }
     let(:params) { { id: talk.id } }
 

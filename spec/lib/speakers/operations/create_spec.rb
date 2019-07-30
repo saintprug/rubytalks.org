@@ -5,7 +5,7 @@ RSpec.describe Speakers::Operations::Create do
 
   let(:operation) { described_class.new(speaker_repo: speaker_repo) }
   let(:speaker_repo) { instance_double('SpeakerRepository', create: Speaker.new) }
-  let(:speaker_form) { Fabricate.attributes_for(:speaker).symbolize_keys }
+  let(:speaker_form) { Fabricate.attributes_for(:speaker) }
 
   context 'when speaker form is valid' do
     it { expect(subject).to be_success }
@@ -23,6 +23,6 @@ RSpec.describe Speakers::Operations::Create do
 
     it { expect(subject).to be_success }
     it { expect(subject.value!).to be_a(Speaker) }
-    it { expect { subject }.to change { SpeakerRepository.new.all.count }.by(1) }
+    it { expect { subject }.to change { SpeakerRepository.new.root.where(state: 'unpublished').count }.by(1) }
   end
 end

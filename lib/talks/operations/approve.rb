@@ -6,8 +6,7 @@ module Talks
       include Import[
         talk_repo: 'repositories.talk',
         speaker_repo: 'repositories.speaker',
-        event_repo: 'repositories.event',
-        talks_speakers_repo: 'repositories.talks_speakers'
+        event_repo: 'repositories.event'
       ]
 
       # set Talk state to 'approved'
@@ -27,11 +26,11 @@ module Talks
       private
 
       def find_talk(id)
-        Try(ROM::TupleCountMismatchError) { talk_repo.find_with_speakers(id) }
+        Try(ROM::TupleCountMismatchError) { talk_repo.find_unapproved(id) }.to_result
       end
 
       def update_talk_state(id)
-        Try(Hanami::Model::Error) { talk_repo.update(id, state: 'approved') }
+        Try(Hanami::Model::Error) { talk_repo.update(id, state: 'approved') }.to_result
       end
 
       def update_speakers_state(speakers)
@@ -39,11 +38,11 @@ module Talks
           speakers.map(&:id).each do |speaker_id|
             speaker_repo.update(speaker_id, state: 'approved')
           end
-        end
+        end.to_result
       end
 
       def update_event_state(event_id)
-        Try(Hanami::Model::Error) { event_repo.update(event_id, state: 'approved') }
+        Try(Hanami::Model::Error) { event_repo.update(event_id, state: 'approved') }.to_result
       end
     end
   end

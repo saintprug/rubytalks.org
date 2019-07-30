@@ -17,10 +17,11 @@ module Web
             result = operation.call(form_response.to_h)
             if result.success?
               flash[:success] = 'Talk has been created. It will appear in the list when Administrator approves it'
-              redirect_to routes.talks_path
             else
-              self.status = 422
+              # TODO: log to rollbar/sentry
+              flash[:error] = 'Something wrong'
             end
+            redirect_to routes.talks_path
           else
             self.body = Web::Views::Talks::New.render(
               format: :html,

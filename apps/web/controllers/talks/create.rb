@@ -15,9 +15,10 @@ module Web
           form_response = form.call(params[:talk])
           if form_response.success?
             result = operation.call(form_response.to_h)
-            if result.success?
+            case result
+            when Success
               flash[:success] = 'Talk has been created. It will appear in the list when Administrator approves it'
-            else
+            when Failure
               # TODO: log to rollbar/sentry
               flash[:error] = 'Something wrong'
             end

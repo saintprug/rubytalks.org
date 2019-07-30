@@ -20,7 +20,7 @@ module Admin
           case result
           when Success
             @talks = result.value!
-          else
+          when Failure
             # TODO: log to rollbar/sentry
             halt 400, 'Something went wrong'
           end

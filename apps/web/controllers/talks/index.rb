@@ -18,7 +18,7 @@ module Web
           case result
           when Success
             @talks = result.value!
-          else
+          when Failure
             halt 400, 'Something went wrong'
           end
         end

@@ -3,6 +3,7 @@
 require 'dry/monads/result'
 require 'dry/monads/try'
 require 'dry/monads/do'
+require 'dry/monads/list'
 require 'dry/monads/do/all'
 
 # Base operation class. Provides dry-monads do notation and Result monads.
@@ -27,6 +28,7 @@ require 'dry/monads/do/all'
 class Operation
   include Dry::Monads::Try::Mixin
   include Dry::Monads::Result::Mixin
+  include Dry::Monads::List::Mixin
   include Dry::Monads::Do::All
 
   Dry::Validation.load_extensions(:monads)

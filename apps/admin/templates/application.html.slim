@@ -21,6 +21,12 @@ html[lang="en"]
           = flash[:success]
           button.close aria-label="Close" data-dismiss="alert" type="button"
             span aria-hidden="true"  &times;
+      - if flash[:error]
+        - flash[:error].each do |error_message|
+          .alert.alert-danger.alert-dismissible.fade.show
+            = error_message
+            button.close aria-label="Close" data-dismiss="alert" type="button"
+              span aria-hidden="true"  &times;
       main.inner.cover[role="main"]
         = yield
   = javascript 'jquery', 'bootstrap', 'main'

@@ -3,6 +3,7 @@
 require_relative 'shared/base'
 require_relative 'shared/stateable'
 
+# TODO: introduce query objects for pagination, searching and filtration
 class TalkRepository < Hanami::Repository
   include Base
   include Stateable
@@ -33,11 +34,14 @@ class TalkRepository < Hanami::Repository
       .one!
   end
 
-  def for_approve(amount: 10)
-    with_relations(with_state(order_by_created_at(root), 'unpublished'), :speakers, :event)
-      .limit(amount)
-      .map_to(Talk)
-      .to_a
+  def for_approve(amount: 10, page: 1)
+    for_approve_relation(amount: amount, page: page).to_a
+  end
+
+  def for_approve_pager(amount: 10, page: 1)
+    Hanami::Pagination::Pager.new(
+      for_approve_relation(amount: amount, page: page).pager
+    )
   end
 
   def find_with_speakers_and_event(id)
@@ -50,5 +54,12 @@ class TalkRepository < Hanami::Repository
 
   def order_by_date(relation)
     relation.order { talked_at.desc }
+  end
+
+  def for_approve_relation(amount:, page:)
+    with_relations(with_state(order_by_created_at(root), 'unpublished'), :speakers, :event)
+      .per_page(amount)
+      .page(page)
+      .map_to(Talk)
   end
 end

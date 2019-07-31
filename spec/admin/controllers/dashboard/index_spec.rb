@@ -8,7 +8,7 @@ RSpec.describe Admin::Controllers::Dashboard::Index do
 
   context 'when operation is success' do
     let(:talks) { Fabricate.build_times(3, :talk) } # unapproved
-    let(:operation) { ->(*) { Success(talks) } }
+    let(:operation) { ->(*) { Success(result: talks) } }
 
     it { expect(subject.first).to eq(200) }
 
@@ -20,7 +20,7 @@ RSpec.describe Admin::Controllers::Dashboard::Index do
 
   context 'when operation is failure' do
     let(:talks) { Fabricate.build_times(3, :talk) } # unapproved
-    let(:operation) { ->(*) { Failure(talks) } }
+    let(:operation) { ->(*) { Failure(result: talks) } }
 
     it { expect(subject.first).to eq(400) }
   end

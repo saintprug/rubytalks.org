@@ -36,9 +36,7 @@ gem 'ruby-oembed'
 # gem 'hanami-shrine'
 # gem 'shrine'
 
-# TODO: add pagination
-# pagination
-#gem 'hanami-pagination', github: 'davydovanton/hanami-pagination'
+gem 'hanami-pagination', github: 'davydovanton/hanami-pagination'
 
 # TODO: add youtube parser
 # YouTube client

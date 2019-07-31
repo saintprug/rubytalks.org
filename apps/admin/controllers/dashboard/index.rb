@@ -6,20 +6,24 @@ module Admin
       class Index
         include Admin::Action
         include Dry::Monads::Result::Mixin
-        # TODO: add pagination
-        # include Hanami::Pagination::Action
         include Import[
           operation: 'talks.operations.list_for_approve'
         ]
 
+        params do
+          optional(:page).filled(:int?)
+        end
+
         expose :talks
+        expose :pager
 
         def call(params)
-          result = operation.call(params)
+          result = operation.call(page: params[:page])
 
           case result
           when Success
-            @talks = result.value!
+            @talks = result.value![:result]
+            @pager = result.value![:pager]
           when Failure
             # TODO: log to rollbar/sentry
             halt 400, 'Something went wrong'

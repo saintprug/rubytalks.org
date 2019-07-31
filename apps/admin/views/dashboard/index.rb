@@ -5,8 +5,7 @@ module Admin
     module Dashboard
       class Index
         include Admin::View
-        # TODO: add pagination
-        # include Hanami::Pagination::View
+        include Admin::Helpers::Pagination
 
         def title
           'Admin dashboard'
@@ -23,6 +22,13 @@ module Admin
           html.form(action: routes.decline_talk_path(id), method: 'POST') do
             input(type: 'hidden', name: '_method', value: 'PATCH')
             input(type: 'submit', value: 'Decline', class: 'btn btn-danger')
+          end
+        end
+
+        def event_info(event)
+          html.div do
+            p "Event: name: #{event.name }, city: #{event.city }, started at: #{format_date(event.started_at)}, "\
+              "ended at: #{format_date(event.ended_at)}"
           end
         end
 

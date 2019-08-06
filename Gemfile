@@ -39,9 +39,12 @@ gem 'semantic_logger'
 # generate embed from url
 gem 'ruby-oembed'
 
-# TODO: add youtube parser
 # YouTube client
-# gem 'yt', '~> 0.28.0'
+gem 'yt', '~> 0.28.0'
+
+# background jobs
+gem 'hiredis'
+gem 'sidekiq'
 
 group :development do
   # Code reloading

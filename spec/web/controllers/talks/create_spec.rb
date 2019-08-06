@@ -17,7 +17,8 @@ RSpec.describe Web::Controllers::Talks::Create do
 
       it 'redirects to talks page' do
         expect(subject.first).to eq(302)
-        expect(flash[:success]).to eq('Talk has been created. It will appear in the list when Administrator approves it')
+        expect(flash[:success]).to eq('Talk has been created. It will appear in the '\
+                                      'list when Administrator approves it')
       end
     end
 

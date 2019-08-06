@@ -29,7 +29,9 @@ module Talks
       end
 
       def create_talk_speakers(talk_id, speakers)
-        Dry::Monads::List[*speakers.map { |speaker| create_talk_speaker(talk_id, speaker.id) }].typed(Dry::Monads::Result).traverse
+        Dry::Monads::List[*speakers.map { |speaker| create_talk_speaker(talk_id, speaker.id) }]
+          .typed(Dry::Monads::Result)
+          .traverse
       end
 
       # move to approve operation?

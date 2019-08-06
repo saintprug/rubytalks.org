@@ -27,7 +27,7 @@ module Admin
 
         def event_info(event)
           html.div do
-            p "Event: name: #{event.name }, city: #{event.city }, started at: #{format_date(event.started_at)}, "\
+            p "Event: name: #{event.name}, city: #{event.city}, started at: #{format_date(event.started_at)}, "\
               "ended at: #{format_date(event.ended_at)}"
           end
         end

@@ -12,7 +12,7 @@ module Admin
           form: 'web.forms.talk_form'
         ]
 
-        def call(params)
+        def call(params) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
           form_response = form.call(params[:talk])
           if form_response.success?
             result = operation.call(params[:id], form_response.to_h)

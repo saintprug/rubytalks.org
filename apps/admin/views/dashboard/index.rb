@@ -5,7 +5,7 @@ module Admin
     module Dashboard
       class Index
         include Admin::View
-        include Admin::Helpers::Pagination
+        include Shared::Helpers::Pagination
 
         def title
           'Admin dashboard'

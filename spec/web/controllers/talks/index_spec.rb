@@ -3,12 +3,12 @@
 RSpec.describe Web::Controllers::Talks::Index do
   subject { action.call(params) }
 
-  let(:params) { {} }
+  let(:params) { { page: 1 } }
   let(:action) { described_class.new(operation: operation) }
 
   context 'when operation is success' do
     let(:talks) { Fabricate.build_times(3, :approved_talk) }
-    let(:operation) { ->(*) { Success(talks) } }
+    let(:operation) { ->(*) { Success(result: talks, pager: nil) } }
 
     it { expect(subject.first).to eq(200) }
 

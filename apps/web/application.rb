@@ -2,6 +2,7 @@
 
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative '../shared/helpers/pagination'
 
 module Web
   class Application < Hanami::Application

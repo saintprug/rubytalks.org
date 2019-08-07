@@ -2,6 +2,7 @@
 
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative '../shared/helpers/pagination'
 
 module Admin
   class Application < Hanami::Application
@@ -21,9 +22,9 @@ module Admin
       # When you add new directories, remember to add them here.
       #
       load_paths << %w[
+        views
         helpers
         controllers
-        views
       ]
 
       # Handle exceptions with HTTP statuses (true) or don't catch them (false).

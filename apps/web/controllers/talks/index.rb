@@ -13,11 +13,12 @@ module Web
         expose :talks
 
         def call(params)
-          result = operation.call(params)
+          result = operation.call(page: params[:page])
 
           case result
           when Success
-            @talks = result.value!
+            @talks = result.value![:result]
+            @pager = result.value![:pager]
           when Failure
             halt 400, 'Something went wrong'
           end

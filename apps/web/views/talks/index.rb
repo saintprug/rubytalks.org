@@ -5,6 +5,7 @@ module Web
     module Talks
       class Index
         include Web::View
+        include Shared::Helpers::Pagination
 
         def title
           'Talks'

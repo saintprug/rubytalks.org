@@ -14,11 +14,14 @@ class TalkRepository < Hanami::Repository
     belongs_to :event
   end
 
-  def latest(amount: 10)
-    order_by_date(with_state(root, 'approved'))
-      .limit(amount)
-      .map_to(Talk)
-      .to_a
+  def latest(amount: 10, page: 1)
+    latest_relation(amount: amount, page: page).to_a
+  end
+
+  def latest_pager(amount: 10, page: 1)
+    Hanami::Pagination::Pager.new(
+      for_approve_relation(amount: amount, page: page).pager
+    )
   end
 
   # with state `unpublished` and `declined`
@@ -58,6 +61,13 @@ class TalkRepository < Hanami::Repository
 
   def for_approve_relation(amount:, page:)
     with_relations(with_state(order_by_created_at(root), 'unpublished'), :speakers, :event)
+      .per_page(amount)
+      .page(page)
+      .map_to(Talk)
+  end
+
+  def latest_relation(amount:, page:)
+    order_by_date(with_state(root, 'approved'))
       .per_page(amount)
       .page(page)
       .map_to(Talk)

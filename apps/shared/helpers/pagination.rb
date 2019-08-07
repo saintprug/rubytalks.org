@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Admin
+module Shared
   module Helpers
     # simple pagination helper for showing bootstrap pagination block on the index page
     module Pagination

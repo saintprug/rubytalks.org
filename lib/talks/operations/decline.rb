@@ -13,35 +13,33 @@ module Talks
       # set Speaker state to 'decline'
       # set Event state to 'decline' if Event presents
       def call(id)
-        talk = yield find_talk(id)
-        talk_repo.transaction do
-          yield update_talk_state(talk.id)
-          yield update_speakers_state(talk.speakers)
-          yield update_event_state(talk.event_id) if talk.event_id
-        end
-        Success('Talk declined')
+        Try(ROM::TupleCountMismatchError, Hanami::Model::Error) do
+          talk = find_talk(id)
+          talk_repo.transaction do
+            update_talk_state(talk.id)
+            update_speakers_state(talk.speakers)
+            update_event_state(talk.event_id) if talk.event_id
+          end
+          Success('Talk declined')
+        end.to_result
       end
 
       private
 
       def find_talk(id)
-        Try(ROM::TupleCountMismatchError) { talk_repo.find_with_speakers_and_event(id) }.to_result
+        talk_repo.find_with_speakers_and_event(id)
       end
 
       def update_talk_state(id)
-        Try(Hanami::Model::Error) { talk_repo.update(id, state: 'declined') }.to_result
+        talk_repo.update(id, state: 'declined')
       end
 
       def update_speakers_state(speakers)
-        Try(Hanami::Model::Error) do
-          speakers.map(&:id).each do |speaker_id|
-            speaker_repo.update(speaker_id, state: 'declined')
-          end
-        end.to_result
+        speakers.map(&:id).each { |speaker_id| speaker_repo.update(speaker_id, state: 'declined') }
       end
 
       def update_event_state(event_id)
-        Try(Hanami::Model::Error) { event_repo.update(event_id, state: 'declined') }.to_result
+        event_repo.update(event_id, state: 'declined')
       end
     end
   end

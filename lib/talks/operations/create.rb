@@ -11,7 +11,8 @@ module Talks
         talks_speakers_repo: 'repositories.talks_speakers',
       ]
 
-      def call(talk_form)
+      def call(talk_form) # rubocop:disable Metrics/AbcSize
+        talk_form = talk_form.symbolize_keys
         oembed = yield generate_oembed(talk_form[:link])
         talk_repo.transaction do
           speakers = yield find_or_create_speakers(talk_form[:speakers])
@@ -60,14 +61,14 @@ module Talks
       end
 
       def find_or_create_speaker(speaker_form)
-        speaker = speaker_repo.find_or_create(speaker_form)
+        speaker = speaker_repo.find_or_create(speaker_form.symbolize_keys)
         speaker ? Success(speaker) : Failure('could not create speaker')
       end
 
       def find_or_create_event(event_form)
         return Success(nil) unless event_form
 
-        event = event_repo.find_or_create(event_form)
+        event = event_repo.find_or_create(event_form.symbolize_keys)
         event ? Success(event) : Failure('could not create event')
       end
     end

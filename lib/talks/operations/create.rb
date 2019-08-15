@@ -60,26 +60,15 @@ module Talks
       end
 
       def find_or_create_speaker(speaker_form)
-        speaker = speaker_repo.find_by_name(first_name: speaker_form[:first_name], last_name: speaker_form[:last_name])
-
-        if speaker
-          Success(speaker)
-        else
-          new_speaker = speaker_repo.create(**speaker_form) # state `unpublished` by default
-          new_speaker ? Success(new_speaker) : Failure('could not create speaker')
-        end
+        speaker = speaker_repo.find_or_create(speaker_form)
+        speaker ? Success(speaker) : Failure('could not create speaker')
       end
 
       def find_or_create_event(event_form)
         return Success(nil) unless event_form
 
-        event = event_repo.find_by_name(name: event_form[:name])
-        if event
-          Success(event)
-        else
-          new_event = event_repo.create(**event_form) # state `unpublished` by default
-          new_event ? Success(new_event) : Failure('could not create event')
-        end
+        event = event_repo.find_or_create(event_form)
+        event ? Success(event) : Failure('could not create event')
       end
     end
   end

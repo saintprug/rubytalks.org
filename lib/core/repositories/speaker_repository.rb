@@ -12,6 +12,11 @@ class SpeakerRepository < Hanami::Repository
     has_many :talks, through: :talks_speakers
   end
 
+  def find_or_create(speaker_form)
+    speaker = find_by_name(first_name: speaker_form[:first_name], last_name: speaker_form[:last_name])
+    speaker || create(**speaker_form)
+  end
+
   def create(*args)
     slug = generate_slug(args.first[:first_name], args.first[:last_name])
     command(create: :speakers).call(args.first.merge(slug: slug))

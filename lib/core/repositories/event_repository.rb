@@ -11,6 +11,11 @@ class EventRepository < Hanami::Repository
     has_many :talks
   end
 
+  def find_or_create(event_form)
+    event = find_by_name(name: event_form[:name])
+    event || create(**event_form)
+  end
+
   def find_by_name(name:)
     root
       .where(name: name)

@@ -6,7 +6,9 @@ RSpec.describe Talks::Operations::Decline do
   describe 'with mocks' do
     let(:operation) { described_class.new(talk_repo: talk_repo, speaker_repo: speaker_repo, event_repo: event_repo) }
     let(:talk) { Talk.new(id: 1, speakers: [Speaker.new(id: 1), Speaker.new(id: 2)], event_id: 1) }
-    let(:talk_repo) { instance_double('TalkRepository', transaction: nil, find_with_speakers_and_event: talk, update: true) }
+    let(:talk_repo) do
+      instance_double('TalkRepository', transaction: nil, find_with_speakers_and_event: talk, update: true)
+    end
     let(:speaker_repo) { instance_double('SpeakerRepository', update: true) }
     let(:event_repo) { instance_double('EventRepository', update: true) }
     let(:id) { 1 }
@@ -42,4 +44,3 @@ RSpec.describe Talks::Operations::Decline do
     end
   end
 end
-

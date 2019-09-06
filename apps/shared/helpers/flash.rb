@@ -8,8 +8,8 @@ module Shared
           success_message(flash[:success])
         elsif flash[:error]
           flash[:error].map do |error_message|
-            error_message(error_message)
-          end.map(&:to_s).join("\n")
+            error_message(error_message).to_s
+          end.join("\n")
         end
       end
 

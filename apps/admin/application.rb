@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'hanami/helpers'
 require 'hanami/assets'
 require_relative '../shared/helpers/pagination'
 require_relative '../shared/helpers/flash'
@@ -24,7 +23,6 @@ module Admin
       #
       load_paths << %w[
         views
-        helpers
         controllers
       ]
 
@@ -268,7 +266,6 @@ module Admin
       # See: http://www.rubydoc.info/gems/hanami-view#Configuration
       view.prepare do
         include Hanami::Helpers
-        include Core::Helpers::SpeakerHelper
         include Admin::Assets::Helpers
       end
     end

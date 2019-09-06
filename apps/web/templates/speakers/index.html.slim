@@ -1,4 +1,4 @@
 h1 Speakers page
 - speakers.each do |speaker|
-  = link_to(full_name(speaker), routes.speaker_path(speaker.id))
+  = link_to(SpeakerForDisplay.new(**speaker).full_name, routes.speaker_path(speaker.id))
   br

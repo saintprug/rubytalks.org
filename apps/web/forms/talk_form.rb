@@ -15,14 +15,14 @@ module Web
         optional(:id)
         required(:name).filled(:str?)
         required(:city).filled(:str?)
-        required(:started_at).filled(:str?)
-        required(:ended_at).filled(:str?)
+        required(:started_at).filled(:time?)
+        required(:ended_at).filled(:time?)
       end
 
       TalkSchema = Dry::Validation.Form do
         required(:title).filled(:str?)
         required(:description).filled(:str?)
-        required(:talked_at).filled(:date_time?)
+        required(:talked_at).filled(:time?)
         required(:link).filled(:str?)
         required(:speakers).each(SpeakerSchema)
         optional(:event).schema(EventSchema)

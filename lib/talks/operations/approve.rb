@@ -21,7 +21,6 @@ module Talks
             update_speakers_state(talk.speakers)
             update_event_state(talk.event_id) if talk.event_id
           end
-          Success('Talk successfully approved')
         end.to_result
       end
 

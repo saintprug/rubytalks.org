@@ -18,7 +18,7 @@ module Talks
         oembed = yield generate_oembed(talk_form[:link])
         talk_repo.transaction do
           event = yield create_or_update_event(talk_form[:event])
-          talk = yield event ? update_talk(id, talk_form, oembed, event.id) : update_talk(id, talk_form, oembed)
+          talk = yield update_talk(id, talk_form, oembed, event)
           yield update_speakers(talk_form[:speakers]) # Success([Speaker #1, Speaker #2])
           Success(talk)
         end
@@ -30,8 +30,8 @@ module Talks
         Try(OEmbed::Error) { oembed.get(link).html }.to_result
       end
 
-      def update_talk(id, talk_form, oembed, event_id = nil)
-        talk = talk_repo.update(id, **talk_form, embed_code: oembed, event_id: event_id)
+      def update_talk(id, talk_form, oembed, event = nil)
+        talk = talk_repo.update(id, **talk_form, embed_code: oembed, event_id: event&.id)
         if talk
           Success(talk)
         else

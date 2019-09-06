@@ -26,7 +26,7 @@ Hanami.configure do
       g.connection.pool.connection_validation_timeout = ENV['DATABASE_CONNECTION_VALIDATION_TIMEOUT'] || 30 # seconds
     end
   end
-  logger level: :debug
+  logger level: :debug unless Hanami.env?(:test)
   mailer do
     root 'lib/core/mailers'
 

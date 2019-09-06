@@ -9,7 +9,7 @@
             = link_to('Edit', routes.edit_talk_path(talk.id), class: 'btn btn-secondary')
             = decline_button(talk.id)
             = approve_button(talk.id)
-        p = "Speakers: #{talk.speakers.map(&method(:full_name)).join(', ')}"
+        p = "Speakers: #{talk.speakers.map { |speaker| SpeakerForDisplay.new(**speaker).full_name }.join(', ')}"
         - if talk.event
           = event_info(talk.event)
 

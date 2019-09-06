@@ -38,5 +38,17 @@ RSpec.describe Admin::Controllers::Talks::Update do
     end
   end
 
-  # TODO: add specs with real data
+  context 'with real data' do
+    let(:action) { described_class.new }
+    let!(:talk) { Fabricate.create(:talk) }
+    let!(:speaker) { Fabricate.create(:speaker) }
+    let(:talk_speaker) { TalksSpeakers.new(talk_id: talk.id, speaker_id: speaker.id) }
+    let(:params) { { id: talk.id, talk: talk.to_h.merge(title: 'new title', speakers: [speaker.to_h]) } }
+
+    it { expect(subject.first).to eq(302) }
+    it 'redirects to dashboard' do
+      subject
+      expect(action.exposures[:flash][:success]).to eq('Talk has been updated')
+    end
+  end
 end

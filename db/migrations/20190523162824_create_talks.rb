@@ -11,7 +11,7 @@ Hanami::Model.migration do
       column :description, String, null: false
       column :link, String, null: false
       column :embed_code, String
-      column :state, String, null: false, default: 'unpublished'
+      column :state, :state, null: false, default: 'unpublished'
       column :talked_at, DateTime, null: false
 
       column :created_at, DateTime, null: false

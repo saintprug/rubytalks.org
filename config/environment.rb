@@ -35,8 +35,8 @@ Hanami.configure do
   end
 
   environment :production do
-    mailer do
-      delivery :smtp, address: ENV.fetch('SMTP_HOST'), port: ENV.fetch('SMTP_PORT')
-    end
+    # mailer do
+    #   delivery :smtp, address: ENV.fetch('SMTP_HOST'), port: ENV.fetch('SMTP_PORT')
+    # end
   end
 end

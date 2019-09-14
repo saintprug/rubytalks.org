@@ -103,3 +103,13 @@ docker-compose run web bundle exec hanami s
 ```
 
 When you run the server the app will be available at http://localhost:2300
+
+## Deploy
+
+```
+heroku container:login
+heroku container:push web -a rubytalks-org
+heroku container:release web -a rubytalks-org
+```
+
+Show logs: `heroku logs --tail -a rubytalks-org`

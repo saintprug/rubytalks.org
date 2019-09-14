@@ -1,0 +1,7 @@
+log/
+tmp/
+.circleci/
+.dockerdev/
+.idea/
+.psqlrc/
+.docker-compose.yml

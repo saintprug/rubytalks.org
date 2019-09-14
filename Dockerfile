@@ -18,4 +18,4 @@ ENV LANG=en_US.UTF-8
 ENV HANAMI_ENV=production
 ENV SERVE_STATIC_ASSETS=true
 
-CMD ./starup
+CMD /app/startup.sh

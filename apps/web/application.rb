@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require 'hanami/helpers'
 require 'hanami/assets'
+require_relative '../shared/helpers/pagination'
+require_relative '../shared/helpers/flash'
 
 module Web
   class Application < Hanami::Application

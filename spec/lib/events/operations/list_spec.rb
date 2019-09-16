@@ -20,7 +20,7 @@ RSpec.describe Events::Operations::List do
   end
 
   context 'with real data' do
-    let!(:events) { Fabricate.times(3, :event) }
+    let!(:events) { Fabricate.times(3, :approved_event) }
     let(:operation) { described_class.new }
 
     it { expect(subject).to be_success }

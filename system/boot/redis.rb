@@ -10,6 +10,6 @@ Container.boot(:redis) do |container|
     # ping redis DB before start for understanding that all works correctly
     redis.with(&:ping)
 
-    container.register('persistance.redis', redis)
+    container.register('persistence.redis', redis)
   end
 end

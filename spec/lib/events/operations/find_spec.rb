@@ -22,7 +22,7 @@ RSpec.describe Events::Operations::Find do
   context 'with real data' do
     subject { operation.call(id: event.id) }
 
-    let(:event) { Fabricate.create(:event) }
+    let(:event) { Fabricate.create(:approved_event) }
     let(:operation) { described_class.new }
 
     it { expect(subject).to be_success }

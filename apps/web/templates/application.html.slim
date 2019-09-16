@@ -25,9 +25,7 @@ html[lang="en"]
               = link_to 'Events', routes.path(:events), class: 'nav-link text-dark'
             li.nav-item
               = link_to 'Add talk', routes.new_talk_path, class: ' btn btn-danger btn-sm'
-      - if flash[:success]
-        .alert.alert-success
-          = flash[:success]
+        = show_flash(flash)
       main.inner.cover[role="main"]
         = yield
       = render partial: 'shared/footer'

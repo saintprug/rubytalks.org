@@ -8,6 +8,7 @@ class Speaker < Hanami::Entity
     attribute :first_name, Types::String
     attribute :last_name, Types::String
     attribute :slug, Types::String
+    attribute :state, ::Core::Types::States
 
     attribute :created_at, Types::DateTime
     attribute :updated_at, Types::DateTime

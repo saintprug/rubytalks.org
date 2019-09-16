@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe Admin::Views::ApplicationLayout, type: :view do
-  let(:layout)   { Admin::Views::ApplicationLayout.new({ format: :html }, 'contents') }
-  let(:rendered) { layout.render }
+  subject { layout.render }
+
+  let(:layout) { described_class.new({ format: :html, title: 'Admin', flash: {} }, 'contents') }
 
   it 'contains application name' do
-    expect(rendered).to include('Admin')
+    is_expected.to include('Admin')
   end
 end

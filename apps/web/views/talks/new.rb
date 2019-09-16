@@ -11,7 +11,9 @@ module Web
         end
 
         def form
-          form_for :talk, routes.talks_path do
+          form = Form.new(:talk, routes.talks_path, talk: { speakers: [Speaker.new] })
+
+          form_for form do
             div class: 'form-row' do
               div class: 'col form-group' do
                 text_field :title, class: 'form-control', placeholder: 'Title'
@@ -29,7 +31,11 @@ module Web
               div class: 'col form-group' do
                 text_field :link, class: 'form-control', placeholder: 'Link from Youtube, Vimeo, etc.'
               end
-              fields_for :speaker do
+            end
+
+            div 'Speakers', class: 'h6'
+            fields_for_collection :speakers do
+              div class: 'form-row' do
                 div class: 'col form-group' do
                   text_field :first_name, class: 'form-control', placeholder: 'Speaker first name'
                 end
@@ -38,6 +44,7 @@ module Web
                 end
               end
             end
+            div 'Event', class: 'h6'
             div class: 'form-row' do
               fields_for :event do
                 div class: 'col form-group' do
@@ -54,8 +61,12 @@ module Web
                 end
               end
             end
-            submit 'Create', class: 'btn btn-primary'
+            submit submit_label, class: 'btn btn-primary'
           end
+        end
+
+        def submit_label
+          'Create talk'
         end
       end
     end

@@ -12,10 +12,11 @@ class Talk < Hanami::Entity
 
     attribute :title, Types::String
     attribute :description, Types::String
+    attribute :link, Types::String
     attribute :embed_code, Types::String
     attribute :speakers, Types::Collection(Speaker)
     attribute :talked_at, Types::DateTime
-    attribute :published, Types::Bool
+    attribute :state, ::Core::Types::States
 
     attribute :created_at, Types::DateTime
     attribute :updated_at, Types::DateTime

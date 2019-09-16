@@ -28,7 +28,7 @@ RSpec.describe Web::Controllers::Events::Show do
   end
 
   context 'with real data' do
-    let(:event) { Fabricate.create(:event) }
+    let(:event) { Fabricate.create(:approved_event) }
     let(:action) { described_class.new }
     let(:params) { { id: event.id } }
 

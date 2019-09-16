@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /events/:id', type: :feature do
-  let!(:event) { Fabricate.create(:event) }
+  let!(:event) { Fabricate.create(:approved_event) }
   let(:url) { "/events/#{event.id}" }
 
   it 'returns event page' do

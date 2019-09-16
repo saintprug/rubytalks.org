@@ -15,12 +15,14 @@ module Web
           form_response = form.call(params[:talk])
           if form_response.success?
             result = operation.call(form_response.to_h)
-            if result.success?
+            case result
+            when Success
               flash[:success] = 'Talk has been created. It will appear in the list when Administrator approves it'
-              redirect_to routes.talks_path
-            else
-              self.status = 422
+            when Failure
+              # TODO: log to rollbar/sentry
+              flash[:error] = 'Something wrong'
             end
+            redirect_to routes.talks_path
           else
             self.body = Web::Views::Talks::New.render(
               format: :html,
@@ -28,6 +30,12 @@ module Web
               flash: { errors: form_response.errors }
             )
           end
+        end
+
+        private
+
+        def verify_csrf_token?
+          false
         end
       end
     end

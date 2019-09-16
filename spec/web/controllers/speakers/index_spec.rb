@@ -18,8 +18,14 @@ RSpec.describe Web::Controllers::Speakers::Index do
     end
   end
 
+  context 'when operation is failure' do
+    let(:operation) { ->(*) { Failure() } }
+
+    it { expect(subject.first).to eq(400) }
+  end
+
   context 'with real data' do
-    let!(:speakers) { Fabricate.times(3, :speaker) }
+    let!(:speakers) { Fabricate.times(3, :approved_speaker) }
     let(:action) { described_class.new }
 
     it { expect(subject.first).to eq(200) }

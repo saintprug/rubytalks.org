@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /events', type: :feature do
-  let!(:events) { Fabricate.times(3, :event) }
+  let!(:events) { Fabricate.times(3, :approved_event) }
   let(:url) { '/events' }
 
   it 'returns events page' do

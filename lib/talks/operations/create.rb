@@ -11,13 +11,14 @@ module Talks
         talks_speakers_repo: 'repositories.talks_speakers',
       ]
 
-      def call(talk_form)
-        oembed = yield generate_oembed(talk_form.delete(:link))
+      def call(talk_form) # rubocop:disable Metrics/AbcSize
+        talk_form = talk_form.symbolize_keys
+        oembed = yield generate_oembed(talk_form[:link])
         talk_repo.transaction do
-          speaker = yield find_or_create_speaker(talk_form[:speaker])
+          speakers = yield find_or_create_speakers(talk_form[:speakers])
           event   = yield find_or_create_event(talk_form[:event])
-          talk    = yield create_talk(talk_form, oembed, event.id)
-          yield create_talk_speaker(talk.id, speaker.id)
+          talk    = yield event ? create_talk(talk_form, oembed, event.id) : create_talk(talk_form, oembed)
+          yield create_talk_speakers(talk.id, speakers)
           Success(talk)
         end
       end
@@ -28,6 +29,13 @@ module Talks
         Try(OEmbed::Error) { oembed.get(link).html }
       end
 
+      def create_talk_speakers(talk_id, speakers)
+        Dry::Monads::List[*speakers.map { |speaker| create_talk_speaker(talk_id, speaker.id) }]
+          .typed(Dry::Monads::Result)
+          .traverse
+      end
+
+      # move to approve operation?
       def create_talk_speaker(talk_id, speaker_id)
         talk_speaker = talks_speakers_repo.create(talk_id: talk_id, speaker_id: speaker_id)
 
@@ -38,8 +46,8 @@ module Talks
         end
       end
 
-      def create_talk(talk_form, oembed, event_id)
-        talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id, published: false)
+      def create_talk(talk_form, oembed, event_id = nil)
+        talk = talk_repo.create(**talk_form, embed_code: oembed, event_id: event_id) # state `unpublished` by default
 
         if talk
           Success(talk)
@@ -48,26 +56,20 @@ module Talks
         end
       end
 
-      def find_or_create_speaker(speaker_form)
-        speaker = speaker_repo.find_by_name(first_name: speaker_form[:first_name], last_name: speaker_form[:last_name])
+      def find_or_create_speakers(speaker_forms)
+        Dry::Monads::List[*speaker_forms.map(&method(:find_or_create_speaker))].typed(Dry::Monads::Result).traverse
+      end
 
-        if speaker
-          Success(speaker)
-        else
-          new_speaker = speaker_repo.create(**speaker_form)
-          new_speaker ? Success(new_speaker) : Failure('could not create speaker')
-        end
+      def find_or_create_speaker(speaker_form)
+        speaker = speaker_repo.find_or_create(speaker_form.symbolize_keys)
+        speaker ? Success(speaker) : Failure('could not create speaker')
       end
 
       def find_or_create_event(event_form)
-        event = event_repo.find_by_name(name: event_form[:name])
+        return Success(nil) unless event_form
 
-        if event
-          Success(event)
-        else
-          new_event = event_repo.create(**event_form)
-          new_event ? Success(new_event) : Failure('could not create event')
-        end
+        event = event_repo.find_or_create(event_form.symbolize_keys)
+        event ? Success(event) : Failure('could not create event')
       end
     end
   end

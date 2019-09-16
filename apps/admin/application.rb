@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require 'hanami/helpers'
 require 'hanami/assets'
+require_relative '../shared/helpers/pagination'
+require_relative '../shared/helpers/flash'
 
 module Admin
   class Application < Hanami::Application
@@ -21,8 +22,8 @@ module Admin
       # When you add new directories, remember to add them here.
       #
       load_paths << %w[
-        controllers
         views
+        controllers
       ]
 
       # Handle exceptions with HTTP statuses (true) or don't catch them (false).
@@ -83,7 +84,7 @@ module Admin
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      # sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET']
+      sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET']
 
       # Configure Rack middleware for this application
       #
@@ -147,7 +148,7 @@ module Admin
         # See: http://hanamirb.org/guides/assets/compressors
         #
         # In order to skip stylesheet compression comment the following line
-        stylesheet_compressor :builtin
+        stylesheet_compressor :sass
 
         # Specify sources for assets
         #
@@ -234,16 +235,16 @@ module Admin
         frame-ancestors 'self';
         base-uri 'self';
         default-src 'none';
-        script-src 'self';
+        script-src 'self' www.youtube.com;
         connect-src 'self';
-        img-src 'self' https: data:;
+        img-src 'self';
         style-src 'self' 'unsafe-inline' https:;
         font-src 'self';
         object-src 'none';
         plugin-types application/pdf;
-        child-src 'self';
-        frame-src 'self';
-        media-src 'self'
+        worker-src 'self';
+        frame-src 'self' www.youtube.com;
+        media-src 'self';
       )
 
       ##

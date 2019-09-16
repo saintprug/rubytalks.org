@@ -1,9 +1,20 @@
 # frozen_string_literal: true
 
+require_relative 'shared/base'
+require_relative 'shared/stateable'
+
 class SpeakerRepository < Hanami::Repository
+  include Base
+  include Stateable
+
   associations do
     has_many :talks_speakers
     has_many :talks, through: :talks_speakers
+  end
+
+  def find_or_create(speaker_form)
+    speaker = find_by_name(first_name: speaker_form[:first_name], last_name: speaker_form[:last_name])
+    speaker || create(**speaker_form)
   end
 
   def create(*args)
@@ -24,15 +35,13 @@ class SpeakerRepository < Hanami::Repository
   end
 
   def find_with_talks(id:)
-    root
-      .by_pk(id)
-      .combine(:talks)
+    with_relations(with_state(root.by_pk(id), 'approved'), :talks)
       .map_to(Speaker)
-      .one
+      .one!
   end
 
   def all
-    root
+    with_state(root, 'approved')
       .map_to(Speaker)
       .to_a
   end

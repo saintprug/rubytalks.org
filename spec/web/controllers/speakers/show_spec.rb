@@ -20,7 +20,7 @@ RSpec.describe Web::Controllers::Speakers::Show do
 
   context 'when operation is not success' do
     let(:params) { { id: -100 } }
-    let(:operation) { ->(*) { Failure(nil) } }
+    let(:operation) { ->(*) { Failure() } }
 
     it 'redirects to 404' do
       expect(subject.first).to eq(404)
@@ -28,7 +28,7 @@ RSpec.describe Web::Controllers::Speakers::Show do
   end
 
   context 'with real data' do
-    let(:speaker) { Fabricate.create(:speaker) }
+    let(:speaker) { Fabricate.create(:approved_speaker) }
     let(:action) { described_class.new }
     let(:params) { { id: speaker.id } }
 

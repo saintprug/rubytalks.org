@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Hanami::Model.migration do
-  change do
+Sequel.migration do
+  up do
     execute "CREATE TYPE state AS ENUM ('unpublished', 'approved', 'declined');"
 
     create_table :speakers do
@@ -15,5 +15,11 @@ Hanami::Model.migration do
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
     end
+  end
+
+  down do
+    drop_table :speakers
+
+    run 'DROP TYPE IF EXISTS "state"'
   end
 end

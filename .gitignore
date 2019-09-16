@@ -3,3 +3,7 @@
 /tmp
 /coverage
 /log
+
+/.env.development
+/.env.test
+/.env

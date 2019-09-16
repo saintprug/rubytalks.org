@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Hanami::Model.migration do
-  change do
+Sequel.migration do
+  up do
     create_table :talks do
       primary_key :id
       # it is possible to save talks without an event
@@ -17,5 +17,9 @@ Hanami::Model.migration do
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
     end
+  end
+
+  down do
+    drop_table :talks
   end
 end

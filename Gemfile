@@ -10,6 +10,9 @@ gem 'rake'
 
 gem 'pg'
 
+gem 'sequel'
+gem 'sequel_pg', require: 'sequel'
+
 gem 'xml-sitemap'
 
 # templates, preprocessors

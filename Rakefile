@@ -10,3 +10,6 @@ begin
 rescue LoadError
   warn 'Could not start RSpec'
 end
+
+Rake::Task['db:migrate'].clear
+Dir.glob('lib/tasks/*.rake').each { |rake_task| load rake_task }

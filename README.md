@@ -113,3 +113,13 @@ heroku container:release web -a rubytalks-org
 ```
 
 Show logs: `heroku logs --tail -a rubytalks-org`
+
+
+## Conferences list
+
+* !!Con http://bangbangcon.com
+* RailsConf https://railsconf.com
+* RubyHack https://rubyhack.com
+* RubyConf http://rubyconf.org
+* KeepRubyWeird https://keeprubyweird.com
+* GoRuCo http://goruco.com

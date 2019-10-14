@@ -1,0 +1,4 @@
+confreaks_import:
+  cron: "0 0 1 * *"
+  class: "Talks::Workers::ConfreaksImport"
+  queue: default

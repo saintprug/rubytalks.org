@@ -37,9 +37,16 @@ gem 'hanami-pagination', github: 'davydovanton/hanami-pagination'
 # YouTube client
 gem 'yt', '~> 0.28.0'
 
+# xml parser
+gem 'nokogiri'
+
 # background jobs
 gem 'hiredis'
 gem 'sidekiq'
+gem 'sidekiq-cron'
+
+# natural language processor
+# gem 'treat'
 
 group :development do
   # Code reloading

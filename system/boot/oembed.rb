@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Container.boot(:oembed) do |container|
+Hanami::Container.boot(:oembed) do |container|
   init do
     require 'oembed'
 

@@ -3,14 +3,11 @@
 module Web
   module Controllers
     module Events
-      class Show
-        include Web::Action
+      class Show < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'events.operations.find'
         ]
-
-        expose :event
 
         def call(params)
           result = operation.call(id: params[:id])

@@ -3,14 +3,11 @@
 module Web
   module Controllers
     module Speakers
-      class Show
-        include Web::Action
+      class Show < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'speakers.operations.find'
         ]
-
-        expose :speaker
 
         def call(params)
           result = operation.call(id: params[:id])

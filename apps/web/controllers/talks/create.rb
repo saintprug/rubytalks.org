@@ -3,8 +3,7 @@
 module Web
   module Controllers
     module Talks
-      class Create
-        include Web::Action
+      class Create < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.create',

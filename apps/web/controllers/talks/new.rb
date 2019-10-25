@@ -3,8 +3,7 @@
 module Web
   module Controllers
     module Talks
-      class New
-        include Web::Action
+      class New < Web::Action
 
         def call(params); end
       end

@@ -3,8 +3,7 @@
 module Admin
   module Controllers
     module Talks
-      class Update
-        include Admin::Action
+      class Update < Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
           talk_repo: 'repositories.talk',

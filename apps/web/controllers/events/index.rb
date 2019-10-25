@@ -3,14 +3,11 @@
 module Web
   module Controllers
     module Events
-      class Index
-        include Web::Action
+      class Index < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'events.operations.list'
         ]
-
-        expose :events
 
         def call(params)
           result = operation.call(params)

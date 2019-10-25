@@ -3,19 +3,11 @@
 module Admin
   module Controllers
     module Dashboard
-      class Index
-        include Admin::Action
+      class Index < Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.list_for_approve'
         ]
-
-        params do
-          optional(:page).filled(:int?)
-        end
-
-        expose :talks
-        expose :pager
 
         def call(params)
           result = operation.call(page: params[:page])

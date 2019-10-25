@@ -3,8 +3,7 @@
 module Web
   module Controllers
     module Home
-      class Index
-        include Web::Action
+      class Index < Web::Action
 
         def call(params); end
       end

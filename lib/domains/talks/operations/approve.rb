@@ -19,9 +19,11 @@ module Domains
           Try(ROM::TupleCountMismatchError) do
             talk = find_talk(id)
             talk_repo.transaction do
-              update_talk_state(talk.id)
               update_speakers_state(talk.speakers)
+              talk = update_talk_state(talk.id)
               update_event_state(talk.event_id) if talk.event_id
+
+              talk
             end
           end.to_result
         end
@@ -29,7 +31,7 @@ module Domains
         private
 
         def find_talk(id)
-          talk_repo.find_unapproved(id)
+          talk_repo.find_unapproved_by_id(id)
         end
 
         def update_talk_state(id)

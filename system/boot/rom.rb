@@ -4,10 +4,10 @@ Hanami::Container.boot(:rom) do |app|
   end
 
   start do
-    configuration = ROM::Configuration.new(:sql, ENV.fetch('DATABASE_URL'))
-    configuration.auto_registration(app.root.join('lib/persistence'))
-
-    container = ROM.container(configuration)
+    container = ROM.container(:sql, ENV.fetch('DATABASE_URL')) do |config|
+      config.auto_registration(app.root.join('lib/persistence'))
+      config.plugin(:sql, relations: :pagination)
+    end
 
     register(:rom, container)
   end

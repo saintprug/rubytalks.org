@@ -6,16 +6,19 @@ module Domains
       class ListForApprove
         include Operation
         include Import[
-          talk_repo: 'repositories.talk'
+          talk_repo: 'repositories.talk',
+          contract: 'domains.talks.contracts.list_for_approve'
         ]
 
-        PAGINATION_LIMIT = 10
-        DEFAULT_PAGE = 1
+        def call(input)
+          input = yield validate(contract, input)
 
-        def call(page:)
-          talks = talk_repo.for_approve(amount: PAGINATION_LIMIT, page: page || DEFAULT_PAGE)
-          pager = talk_repo.for_approve_pager(amount: PAGINATION_LIMIT, page: page || DEFAULT_PAGE)
-          Success(result: talks, pager: pager)
+          talks = talk_repo.find_unpublished(
+            limit: input[:limit],
+            offset: input[:offset]
+          )
+
+          Success(talks)
         end
       end
     end

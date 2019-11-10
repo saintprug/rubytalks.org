@@ -14,8 +14,9 @@ gem 'pg'
 
 gem 'xml-sitemap'
 
-gem 'sass'
-gem 'slim'
+gem 'multi_json'
+gem 'oj'
+gem 'representable'
 
 # dry stuff
 gem 'dry-monads', '~> 1.1.0'
@@ -60,6 +61,10 @@ group :test do
   gem 'simplecov-json', require: false
 
   gem 'rom-factory'
+
+  gem 'json_matchers'
+
+  gem 'webmock'
 end
 
 group :production do

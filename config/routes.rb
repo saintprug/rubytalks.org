@@ -1,9 +1,19 @@
 Hanami.application.routes do
-  # mount :web, at: "/" do
-  #   root to: "home#index"
-  # end
+  mount :admin_api, at: "/admin" do
+    root to: "home#index"
 
-  # mount :admin, at: "/admin" do
-  #   root to: "home#index"
-  # end
+    resources :talks, only: [:update] do
+      collection do
+        get :unpublished
+      end
+
+      member do
+        post :approve
+        post :decline
+      end
+    end
+
+    resources :speakers, only: [:update]
+    resources :events, only: [:update]
+  end
 end

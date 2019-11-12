@@ -4,24 +4,21 @@ source 'https://rubygems.org'
 
 ruby '2.6.3'
 
-gem 'hanami', '~> 1.3'
-gem 'hanami-model', '~> 1.3'
+gem 'hanami', '~> 2.0.0.alpha1'
 gem 'rake'
+
+gem 'rom'
+gem 'rom-sql'
 
 gem 'pg'
 
 gem 'xml-sitemap'
 
-# templates, preprocessors
-gem 'hanami-bootstrap'
-gem 'jquery-hanami'
 gem 'sass'
 gem 'slim'
 
 # dry stuff
 gem 'dry-monads', '~> 1.1.0'
-gem 'dry-system', '~> 0.9.0'
-gem 'dry-system-hanami', github: 'davydovanton/dry-system-hanami'
 gem 'dry-validation'
 
 # logging
@@ -31,9 +28,6 @@ gem 'semantic_logger'
 # generate embed from url
 gem 'ruby-oembed'
 
-# pagination
-gem 'hanami-pagination', github: 'davydovanton/hanami-pagination'
-
 # YouTube client
 gem 'yt', '~> 0.28.0'
 
@@ -42,11 +36,6 @@ gem 'hiredis'
 gem 'sidekiq'
 
 group :development do
-  # Code reloading
-  # See: http://hanamirb.org/guides/projects/code-reloading
-  gem 'hanami-webconsole'
-  gem 'shotgun', platforms: :ruby
-
   # code style
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
@@ -58,20 +47,19 @@ group :test, :development do
   gem 'database_cleaner'
 
   # fake data
-  gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
-  gem 'hanami-fabrication'
+  gem 'faker'
 
   # debug
   gem 'pry-byebug'
 end
 
 group :test do
-  gem 'capybara'
   gem 'rspec'
 
-  gem 'rspec-hanami'
   gem 'simplecov', require: false
   gem 'simplecov-json', require: false
+
+  gem 'rom-factory'
 end
 
 group :production do

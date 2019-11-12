@@ -3,14 +3,11 @@
 module Admin
   module Controllers
     module Talks
-      class Edit
-        include Admin::Action
+      class Edit < Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.find_unapproved'
         ]
-
-        expose :talk
 
         def call(params)
           result = operation.call(id: params[:id])

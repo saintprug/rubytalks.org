@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
-require_relative './environment'
+require 'bundler/setup'
+require 'hanami'
+
+Bundler.require(:default, :development)
+
+require_relative './application'
 
 Hanami.boot

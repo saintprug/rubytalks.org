@@ -3,14 +3,11 @@
 module Web
   module Controllers
     module Talks
-      class Show
-        include Web::Action
+      class Show < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.find_approved'
         ]
-
-        expose :talk
 
         def call(params)
           result = operation.call(id: params[:id])

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+# TODO register as hanami command
+
+require_relative '../config/boot'
+
+Pry.start

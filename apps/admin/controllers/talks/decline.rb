@@ -3,8 +3,7 @@
 module Admin
   module Controllers
     module Talks
-      class Decline
-        include Admin::Action
+      class Decline < Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.decline'

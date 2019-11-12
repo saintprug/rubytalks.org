@@ -3,14 +3,11 @@
 module Web
   module Controllers
     module Speakers
-      class Index
-        include Web::Action
+      class Index < Web::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'speakers.operations.list'
         ]
-
-        expose :speakers
 
         def call(params)
           result = operation.call(params)

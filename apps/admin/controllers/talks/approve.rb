@@ -3,8 +3,7 @@
 module Admin
   module Controllers
     module Talks
-      class Approve
-        include Admin::Action
+      class Approve < Admin::Action
         include Dry::Monads::Result::Mixin
         include Import[
           operation: 'talks.operations.approve'

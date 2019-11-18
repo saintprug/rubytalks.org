@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Util
   module Pagination
     class Mapper
@@ -8,7 +10,7 @@ module Util
       def call(with_opts)
         limit = with_opts.source.dataset.opts[:limit]
         offset = with_opts.source.dataset.opts[:offset] || 1
-        
+
         total = relation.count
         page = offset / limit + 1
         total_pages = total / limit

@@ -13,7 +13,7 @@ module AdminApi
           required(:id).filled(:integer)
         end
 
-        # TODO handle failure
+        # TODO: handle failure
         def handle(request, response)
           input = validate_params(request.params)
           result = decline.call(input[:id])

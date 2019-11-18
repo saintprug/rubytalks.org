@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Domains
   module Speakers
     module Util

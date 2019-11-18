@@ -56,7 +56,7 @@ RSpec.describe Repositories::Speaker do
     let(:approved_speakers) do
       5.times.map { Factory[:approved_speaker] }
     end
-                                                                      
+
     let(:approved_speaker_id) { approved_speakers.last.id }
 
     it 'returns speaker by id' do

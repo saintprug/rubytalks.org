@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './system/import'
 require_relative './params'
 require_relative '../../lib/util/web/helpers/respond_with'

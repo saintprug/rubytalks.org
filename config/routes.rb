@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 Hanami.application.routes do
-  mount :admin_api, at: "/admin" do
-    root to: "home#index"
+  mount :admin_api, at: '/admin' do
+    root to: 'home#index'
 
     resources :talks, only: [:update] do
       collection do

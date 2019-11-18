@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminApi
   module Actions
     module Params

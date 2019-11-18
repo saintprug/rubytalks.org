@@ -20,8 +20,8 @@ module Domains
 
           talk_repo.transaction do
             speakers = yield find_or_create_speakers(talk_form[:speakers])
-            event   = yield find_or_create_event(talk_form[:event])
-            talk    = yield event ? create_talk(talk_form, oembed, event.id) : create_talk(talk_form, oembed)
+            event = yield find_or_create_event(talk_form[:event])
+            talk = yield event ? create_talk(talk_form, oembed, event.id) : create_talk(talk_form, oembed)
             yield create_talk_speakers(talk.id, speakers)
             Success(talk)
           end

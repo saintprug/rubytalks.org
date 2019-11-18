@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Entities
   class PaginatedCollection < ROM::Struct
     attribute :data, Types::Array

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminApi
   module Actions
     module Talks
@@ -11,7 +13,7 @@ module AdminApi
           optional(:page).filled(:integer)
           optional(:per_page).filled(:integer)
         end
-        
+
         def handle(request, response)
           input = validate_params(request.params)
           result = talks.unpublished(input)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'AdminApi: Events', type: :request do
   describe 'PATCH /admin_api/events/:id' do
     context 'valid params' do

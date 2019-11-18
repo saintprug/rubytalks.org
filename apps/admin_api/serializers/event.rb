@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminApi
   module Serializers
     class Event < Util::Web::Serializer

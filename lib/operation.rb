@@ -33,9 +33,18 @@ module Operation
 
   def self.included(base)
     base.include Dry::Monads::Do.for(:call)
+    base.include Import[
+      validator: 'util.validator'
+    ]
   end
 
   def call(*)
     raise NotImplementedError
+  end
+
+  private
+
+  def validate(contract, attributes)
+    validator.call(contract, attributes)
   end
 end

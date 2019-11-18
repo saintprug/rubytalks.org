@@ -15,21 +15,20 @@ module Domains
         # set Speaker state to 'decline'
         # set Event state to 'decline' if Event presents
         def call(id)
-          Try(ROM::TupleCountMismatchError) do
-            talk = find_talk(id)
-            talk_repo.transaction do
-              update_talk_state(talk.id)
-              update_speakers_state(talk.speakers)
-              update_event_state(talk.event_id) if talk.event_id
-            end
-            Success('Talk declined')
-          end.to_result
+          talk = find_talk(id)
+          talk_repo.transaction do
+            update_speakers_state(talk.speakers)
+            talk = update_talk_state(talk.id)
+            update_event_state(talk.event_id) if talk.event_id
+          end
+
+          Success(talk)
         end
 
         private
 
         def find_talk(id)
-          talk_repo.find_with_speakers_and_event(id)
+          talk_repo.find_by_id_with_speakers_and_event(id)
         end
 
         def update_talk_state(id)

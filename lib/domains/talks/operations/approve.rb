@@ -18,6 +18,7 @@ module Domains
         def call(id)
           Try(ROM::TupleCountMismatchError) do
             talk = find_talk(id)
+
             talk_repo.transaction do
               update_speakers_state(talk.speakers)
               talk = update_talk_state(talk.id)

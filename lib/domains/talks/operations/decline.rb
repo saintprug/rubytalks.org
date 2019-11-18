@@ -15,7 +15,7 @@ module Domains
         # set Speaker state to 'decline'
         # set Event state to 'decline' if Event presents
         def call(id)
-          talk = find_talk(id)
+          talk = yield find_talk(id)
           talk_repo.transaction do
             update_speakers_state(talk.speakers)
             talk = update_talk_state(talk.id)
@@ -28,7 +28,7 @@ module Domains
         private
 
         def find_talk(id)
-          talk_repo.find_by_id_with_speakers_and_event(id)
+          Try(ROM::TupleCountMismatchError) { talk_repo.find_by_id_with_speakers_and_event(id) }
         end
 
         def update_talk_state(id)

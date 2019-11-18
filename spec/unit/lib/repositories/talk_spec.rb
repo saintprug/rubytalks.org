@@ -15,18 +15,18 @@ RSpec.describe Repositories::Talk do
     5.times.map { Factory[:declined_talk] }
   end
 
-  describe '#find_unapproved' do
+  describe '#find_unapproved_by_id' do
     let(:unapproved_talk_id) { unpublished_talks.last.id }
 
     it 'returns unapproved talk' do
-      result = subject.find_unapproved(unapproved_talk_id)
+      result = subject.find_unapproved_by_id(unapproved_talk_id)
 
       expect(result.id).to eq(unapproved_talk_id)
     end
   end
 
-  describe '#find_approved_with_speakers_and_event' do
-    subject { described_class.new.find_approved_with_speakers_and_event(approved_talk_id) }
+  describe '#find_approved_by_id_with_speakers_and_event' do
+    subject { described_class.new.find_approved_by_id_with_speakers_and_event(approved_talk_id) }
 
     let(:approved_talk_id) { approved_talks.last.id }
 

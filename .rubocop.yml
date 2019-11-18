@@ -59,11 +59,6 @@ Metrics/AbcSize:
 Metrics/LineLength:
   Max: 120
 
-# Use UTF-8 as the source file encoding, specify when needed.
-Style/Encoding:
-  StyleGuide: '#utf-8'
-  Enabled: when_needed
-
 Naming/FileName:
   Exclude:
   - apps/*-*/lib/*-*.rb

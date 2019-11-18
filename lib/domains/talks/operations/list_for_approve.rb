@@ -7,11 +7,11 @@ module Domains
         include Operation
         include Import[
           talk_repo: 'repositories.talk',
-          contract: 'domains.talks.contracts.list_for_approve'
+          # contract: 'domains.talks.contracts.list_for_approve'
         ]
 
         def call(input)
-          input = yield validate(contract, input)
+          # input = yield validate(contract, input)
 
           talks = talk_repo.find_unpublished(
             limit: input[:limit],

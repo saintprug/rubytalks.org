@@ -4,9 +4,23 @@ RSpec.describe Repositories::Speaker do
   subject { described_class.new(Hanami::Container[:rom]) }
 
   describe '#find_by_name' do
-    let!(:speaker1) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Koval')) }
-    let!(:speaker2) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Korn')) }
-    let!(:speaker3) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Jorge', last_name: 'Martin')) }
+    let!(:speaker1) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Koval')
+      )
+    end
+
+    let!(:speaker2) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Korn')
+      )
+    end
+
+    let!(:speaker3) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Jorge', last_name: 'Martin')
+      )
+    end
 
     context 'when record exists' do
       it 'returns existing record' do
@@ -26,10 +40,28 @@ RSpec.describe Repositories::Speaker do
   end
 
   describe '#order_by_last_name' do
-    let!(:speaker1) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Koval')) }
-    let!(:speaker2) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Jorge', last_name: 'Martin')) }
-    let!(:speaker3) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Bob', last_name: 'Martin')) }
-    let!(:speaker4) { subject.create(Factory.structs[:speaker].attributes.merge(first_name: 'Cat', last_name: 'Simmons')) }
+    let!(:speaker1) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Alex', last_name: 'Koval')
+      )
+    end
+    let!(:speaker2) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Jorge', last_name: 'Martin')
+      )
+    end
+
+    let!(:speaker3) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Bob', last_name: 'Martin')
+      )
+    end
+
+    let!(:speaker4) do
+      subject.create(
+        Factory.structs[:speaker].attributes.merge(first_name: 'Cat', last_name: 'Simmons')
+      )
+    end
 
     context 'without order param' do
       it 'returns speakers ordered by name asc' do
@@ -56,7 +88,7 @@ RSpec.describe Repositories::Speaker do
     let(:approved_speakers) do
       5.times.map { Factory[:approved_speaker] }
     end
-                                                                      
+
     let(:approved_speaker_id) { approved_speakers.last.id }
 
     it 'returns speaker by id' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Util
   module Pagination
     class Mapper
@@ -5,10 +7,10 @@ module Util
         @relation = relation
       end
 
-      def call(with_opts)
+      def call(with_opts) # rubocop:disable Metrics/AbcSize
         limit = with_opts.source.dataset.opts[:limit]
         offset = with_opts.source.dataset.opts[:offset] || 1
-        
+
         total = relation.count
         page = offset / limit + 1
         total_pages = total / limit

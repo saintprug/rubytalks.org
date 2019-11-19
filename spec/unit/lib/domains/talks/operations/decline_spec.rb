@@ -8,7 +8,7 @@ RSpec.describe Domains::Talks::Operations::Decline do
     let(:talk) { Factory.structs[:talk] }
 
     let(:talk_repo) do
-      instance_double(Repositories::Talk, transaction: nil, find_with_speakers_and_event: talk, update: true)
+      instance_double(Repositories::Talk, transaction: nil, find_by_id_with_speakers_and_event: talk, update: true)
     end
 
     let(:speaker_repo) { instance_double(Repositories::Speaker, update: true) }
@@ -23,7 +23,7 @@ RSpec.describe Domains::Talks::Operations::Decline do
 
     context 'when talk is not found' do
       before do
-        allow(talk_repo).to receive(:find_with_speakers_and_event).and_raise(ROM::TupleCountMismatchError)
+        allow(talk_repo).to receive(:find_by_id_with_speakers_and_event).and_raise(ROM::TupleCountMismatchError)
       end
 
       it 'returns failure' do

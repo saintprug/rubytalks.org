@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'AdminApi: Speakers', type: :request do
   describe 'PATCH /admin_api/speakers/:id' do
     context 'valid params' do

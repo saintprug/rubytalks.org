@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Hanami::Container.boot(:redis) do |container|
+Hanami::Container.boot(:redis) do |_container|
   init do
     require 'dotenv'
 

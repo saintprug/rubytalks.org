@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Domains
   module Talks
     module Operations
@@ -19,6 +21,7 @@ module Domains
 
         def prepare_oembed(input)
           return Success(input) if input[:link].nil?
+
           oembed = yield generate_oembed(input[:link])
 
           Success(input.merge(embed_code: oembed))

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Hanami::Container.boot(:rom) do |app|
   init do
     require 'dotenv'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ContainerExt
   module FileRegistration
     def register_file!(file)

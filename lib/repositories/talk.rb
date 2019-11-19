@@ -18,9 +18,9 @@ module Repositories
 
     def find_unpublished(limit: nil, offset: nil)
       combined = talks
-        .combine(:speakers, :event)
-        .with_state('unpublished')
-        .order { created_at.desc }
+                 .combine(:speakers, :event)
+                 .with_state('unpublished')
+                 .order { created_at.desc }
 
       return combined.to_a if limit.nil? && offset.nil?
 

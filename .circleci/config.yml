@@ -11,7 +11,7 @@ jobs:
           PGUSER: circleci-demo-ruby
           HANAMI_ENV: test
           DATABASE_URL: postgresql://localhost/rubytalks_test
-          REDISTOGO_URL: redis://localhost:6379
+          REDIS_URL: redis://localhost:6379
 
       - image: circleci/postgres:11 # database image
         environment: # environment variables for database
@@ -50,8 +50,8 @@ jobs:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
-          name: Database setup
-          command: bundle exec hanami db prepare
+          name: Database migrations
+          command: bundle exec rake db:migrate
       # RSpec
       - run:
           name: Run rspec in parallel
@@ -61,34 +61,3 @@ jobs:
           name: Run rubocop
           command: |
             bundle exec rubocop
-  deploy:
-    machine: true
-    steps:
-      - checkout
-      - run:
-          name: Deploy Master to Heroku
-          command: |
-            docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
-            docker build --rm=false -t registry.heroku.com/$HEROKU_APP_NAME/web .
-            docker push registry.heroku.com/$HEROKU_APP_NAME/web:latest
-      - run:
-          name: Setup Heroku
-          command: |
-            chmod +x .circleci/setup-heroku.sh
-            .circleci/setup-heroku.sh
-      - run:
-          name: Deploy to Heroku
-          command: |
-            heroku container:release web --app $HEROKU_APP_NAME
-
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master

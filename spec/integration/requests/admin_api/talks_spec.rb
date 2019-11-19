@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'AdminApi: Talks', type: :request do
   describe 'GET /admin_api/talks/unpublished' do
     context 'valid params' do

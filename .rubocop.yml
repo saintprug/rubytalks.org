@@ -33,6 +33,7 @@ Metrics/ClassLength:
   - apps/**/http/*.rb
 
 Metrics/MethodLength:
+  Max: 15
   Exclude:
   # Rake DSL
   - rakelib/**/*.rake

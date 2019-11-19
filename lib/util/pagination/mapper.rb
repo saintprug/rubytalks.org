@@ -7,7 +7,7 @@ module Util
         @relation = relation
       end
 
-      def call(with_opts)
+      def call(with_opts) # rubocop:disable Metrics/AbcSize
         limit = with_opts.source.dataset.opts[:limit]
         offset = with_opts.source.dataset.opts[:offset] || 1
 

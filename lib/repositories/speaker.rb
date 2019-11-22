@@ -31,8 +31,21 @@ module Repositories
         .one!
     end
 
-    def all
-      speakers.with_state('approved').to_a
+    def all_approved(limit: nil, offset: nil)
+      combined = speakers.with_state('approved')
+
+      return combined.to_a if limit.nil? && offset.nil?
+      
+      apply_pagination(combined, offset, limit).one!
+    end
+
+    private
+
+    def apply_pagination(relation, offset, limit)
+      with_opts = relation.limit(limit)
+      with_opts = with_opts.offset(offset) if offset.positive?
+
+      with_opts >> Util::Pagination::Mapper.new(relation)
     end
   end
 end

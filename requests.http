@@ -1,0 +1,6 @@
+# -*- restclient -*-
+
+GET http://localhost:2300/talks
+
+#
+GET http://localhost:2300/speakers
